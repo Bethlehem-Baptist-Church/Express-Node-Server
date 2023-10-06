@@ -22,6 +22,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
         <style>
+            input.form-control.form-control-sm {
+                width: 120px !important;
+            }
+
             .card {
                 margin: 0 auto; /* Added */
                 float: none; /* Added */
@@ -145,40 +149,40 @@
                             <div class="card border-dark mb-3" style="margin-top: 40px; border-radius: 30px 30px 40px 40px; max-width: 30rem; text-align: center; display: grid">
                                 <div class="card-header" style=" font-weight: bold; text-align: center; display: grid;">Search Prayer Requests</div>
                                 <div class="card-body" style="border-radius: 0px 0px 30px 30px; text-align: center;  display: grid; background-color: #343a40; border-color: #343a40; color: white;">
-                                    <table class="table table-dark table-striped prayerListTable" id="example" style="max-width: 30rem;">
+                                    <table class="table table-dark table-striped prayerListTable" id="example" name="example" style="width: 100%">
                                         <thead>
-                                        <tr>
-                                            <th scope="col">Category</th>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Details</th>
-                                        </tr>
+                                            <tr>
+                                                <th scope="col">Category</th>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Details</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>Health & Protection</td>
-                                            <td>Good health for my family and protection over them</td>
-                                            <th scope="row"><a href="#">view</a></th>
-                                        </tr>
-                                        <tr>
-                                            <td>Strength & Courage</td>
-                                            <td>Courage to start a new school</td>
-                                            <th scope="row"><a href="#">view</a></th>
-                                        </tr>
-                                        <tr>
-                                            <td>Recovery & Revival</td>
-                                            <td>Recovery from covid sickness</td>
-                                            <th scope="row"><a href="#">view</a></th>
-                                        </tr>
-                                        <tr>
-                                            <td>Peace & Happiness</td>
-                                            <td>Remove anxiety for exam</td>
-                                            <th scope="row"><a href="#">view</a></th>
-                                        </tr>
-                                        <tr>
-                                            <td>Mercy & Forgiveness</td>
-                                            <td>Mercy for our country</td>
-                                            <th scope="row"><a href="#">view</a></th>
-                                        </tr>
+                                            <tr>
+                                                <td>Health & Protection</td>
+                                                <td>Good health for my family and protection over them</td>
+                                                <th scope="row"><a href="#">view</a></th>
+                                            </tr>
+                                            <tr>
+                                                <td>Strength & Courage</td>
+                                                <td>Courage to start a new school</td>
+                                                <th scope="row"><a href="#">view</a></th>
+                                            </tr>
+                                            <tr>
+                                                <td>Recovery & Revival</td>
+                                                <td>Recovery from covid sickness</td>
+                                                <th scope="row"><a href="#">view</a></th>
+                                            </tr>
+                                            <tr>
+                                                <td>Peace & Happiness</td>
+                                                <td>Remove anxiety for exam</td>
+                                                <th scope="row"><a href="#">view</a></th>
+                                            </tr>
+                                            <tr>
+                                                <td>Mercy & Forgiveness</td>
+                                                <td>Mercy for our country</td>
+                                                <th scope="row"><a href="#">view</a></th>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -253,15 +257,23 @@
         ></df-messenger>-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        <scropt src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></scropt>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
         <script>
-            //new DataTable('#example');
+            const table = new DataTable('#example');
+            const exampleFilterClassList = document.getElementById('example_filter').parentElement.classList;
+            exampleFilterClassList.remove("col-sm-12");
+            exampleFilterClassList.remove("col-md-6");
+            exampleFilterClassList.add("col");
+            const exampleLengthClassList = document.getElementById('example_length').parentElement.classList;
+            exampleLengthClassList.remove("col-sm-12");
+            exampleLengthClassList.remove("col-md-6");
+            exampleLengthClassList.add("col");
             const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
             const appendAlert = (message, type) => {
                 const wrapper = document.createElement('div')
                 wrapper.innerHTML = [
-                    `<div class="alert alert-${type} alert-dismissible animate__animated animate__slideInLeft" style="margin-bottom: 0px; height: 60px;" role="alert">`,
+                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__slideInLeft" style="margin-bottom: 0px; height: 60px;" role="alert">`,
                     `   <div>${message}</div>`,
                     '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
                     '</div>'
@@ -299,6 +311,8 @@
                             $('#category').css("border", "0px solid black");
                             $('#prayerRequest').css("border", "0px solid black");
                             appendAlert('Success! Prayer request was received.', 'success');
+                            document.getElementById('alertNotification').scrollIntoView();
+
                         },
                         failure: function(apiResponse){
                             appendAlert('Error! Prayer request was not received.', 'danger');
