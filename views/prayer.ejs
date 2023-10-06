@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
-        <meta name="author" content="Timothy Damir Kovacic">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
         <meta name="generator" content="Hugo 0.118.2">
-        <title>Homepage</title>
+        <title>Prayer Requests</title>
         <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -19,6 +19,12 @@
         <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
         <meta name="theme-color" content="#712cf9">
         <style>
+            .card {
+                margin: 0 auto; /* Added */
+                float: none; /* Added */
+                margin-bottom: 10px; /* Added */
+            }
+
             .bd-placeholder-img {
                 font-size: 1.125rem;
                 text-anchor: middle;
@@ -104,7 +110,8 @@
                     <nav class="navbar bg-body-tertiary">
                         <div class="container-fluid">
                             <a class="navbar-brand" href="/" style="font-size: 32px;">
-                                <img src="/images/bb-church-big-logo.png" alt="Logo" width="30" height="50" class="d-inline-block align-text-top" style="margin: 0px;">
+                                <img src="/images/bb-church-logo.png" alt="Logo" width="30" height="50" class="d-inline-block align-text-top" style="margin: 0px;">
+                                Bethlehem Baptist Church
                             </a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
@@ -112,10 +119,10 @@
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="/">Homepage</a>
+                                        <a class="nav-link" href="/">Homepage</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/prayer">Prayer Requests</a>
+                                        <a class="nav-link active" aria-current="page" href="/prayer">Prayer Requests</a>
                                     </li>
                                     </li>
                                 </ul>
@@ -125,16 +132,61 @@
                 </div>
             </header>
             <main class="px-3">
-                <h1>Cover your page.</h1>
-                <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-                <p class="lead">
-                    <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Learn more</a>
-                </p>
+                <div class="card border-dark mb-3" style="max-width: 30rem;">
+                    <div class="card-header" style="text-align: center;">Create Prayer Request</div>
+                    <div class="card-body" style="background-color: #343a40; border-color: #343a40; color: white;">
+                        <div class="container px-2 my-2" style="padding-top: 0px;">
+                            <form id="contactForm">
+                                <div class="mb-1">
+                                    <label class="form-label" for="title">Title</label>
+                                    <input class="form-control" id="title" type="text" placeholder="Title" data-sb-validations="required" />
+                                    <div class="invalid-feedback" data-sb-feedback="title:required">Title is required.</div>
+                                </div>
+                                <div class="mb-1">
+                                    <label class="form-label" for="category">Category</label>
+                                    <select class="form-select" id="category" aria-label="Category">
+                                        <option value="Health &amp; Safety">Health &amp; Safety</option>
+                                        <option value="Guidance &amp; Wisdom">Guidance &amp; Wisdom</option>
+                                        <option value="Peace &amp; Happiness">Peace &amp; Happiness</option>
+                                        <option value="Strength &amp; Courage">Strength &amp; Courage</option>
+                                        <option value="Attention &amp; Care">Attention &amp; Care</option>
+                                        <option value="Mercy &amp; Forgiveness">Mercy &amp; Forgiveness</option>
+                                        <option value="Recovery &amp; Renewal">Recovery &amp; Renewal</option>
+                                    </select>
+                                </div>
+                                <div class="mb-1">
+                                    <label class="form-label" for="prayerRequest">Prayer Request</label>
+                                    <textarea class="form-control" id="prayerRequest" type="text" placeholder="Prayer Request" style="height: 10rem;" data-sb-validations="required"></textarea>
+                                    <div class="invalid-feedback" data-sb-feedback="prayerRequest:required">Prayer Request is required.</div>
+                                </div>
+                                <br>
+                                <div class="d-grid">
+                                    <button class="btn btn-lg btn-light fw-bold border-white bg-white" id="submitButton" type="submit">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </main>
             <footer class="mt-auto text-white-50">
                 <p><a href="https://getbootstrap.com/" class="text-white"></a><a href="https://twitter.com/mdo" class="text-white"></a></p>
             </footer>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script>
+            $('#contactForm').submit(function(){
+                $.ajax({
+                    url: '/prayer/submitPrayerRequest',
+                    type: 'POST',
+                    data : $('#contactForm').serialize(),
+                    success: function(apiResponse){
+                        console.log('form submitted.');
+                        console.log('response: ' + apiResponse);
+                    }
+                });
+                return false;
+            });
+        </script>
     </body>
 </html>
