@@ -187,7 +187,6 @@
                         <div class="col" style="text-align: center">
                             <div class="card border-dark mb-3" style="margin-top: 40px; border-radius: 30px 30px 40px 40px; max-width: 30rem;">
                                 <div class="card-header" style="text-align: center; font-weight: bold">Create Prayer Request</div>
-                                <div id="liveAlertPlaceholder"></div>
                                 <div class="card-body" style="border-radius: 0px 0px 30px 30px; background-color: #343a40; border-color: #343a40; color: white;">
                                     <div class="container px-2 my-2" style="padding-top: 0px;">
                                         <form id="contactForm">
@@ -228,6 +227,7 @@
             </main>
             <footer class="mt-auto text-white-50">
                 <p><a href="https://getbootstrap.com/" class="text-white"></a><a href="https://twitter.com/mdo" class="text-white"></a></p>
+                <div id="liveAlertPlaceholder"></div>
             </footer>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -256,7 +256,7 @@
             const appendAlert = (message, type) => {
                 const wrapper = document.createElement('div')
                 wrapper.innerHTML = [
-                    `<div class="alert alert-${type} alert-dismissible animate__animated animate__slideInDown" role="alert">`,
+                    `<div class="alert alert-${type} alert-dismissible animate__animated animate__slideInLeft" style="margin-bottom: 0px;" role="alert">`,
                     `   <div>${message}</div>`,
                     '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
                     '</div>'
@@ -278,9 +278,9 @@
                         "prayerRequest": $('#prayerRequest').val()
                     };
 
-                    if(null == payload.title || payload.title.length < 1){appendAlert('Error! Title is required.', 'danger');return;}
-                    if(null == payload.category || payload.category.length < 1){appendAlert('Error! Category is required.', 'danger');return;}
-                    if(null == payload.prayerRequest || payload.prayerRequest.length < 1){appendAlert('Error! Request details are required.', 'danger');return;}
+                    if(null == payload.title || payload.title.length < 1){appendAlert('Error! Title is required.', 'danger');$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
+                    if(null == payload.category || payload.category.length < 1){appendAlert('Error! Category is required.', 'danger');$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
+                    if(null == payload.prayerRequest || payload.prayerRequest.length < 1){appendAlert('Error! Request details are required.', 'danger');$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
 
                     $.ajax({
                         url: '/prayer/submitPrayerRequest',
@@ -290,6 +290,9 @@
                             $('#title').val('');
                             $('#category').val('1').change();
                             $('#prayerRequest').val('');
+                            $('#title').css("border", "0px solid black");
+                            $('#category').css("border", "0px solid black");
+                            $('#prayerRequest').css("border", "0px solid black");
                             appendAlert('Success! Prayer request was received.', 'success');
                         },
                         failure: function(apiResponse){
