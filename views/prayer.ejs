@@ -260,15 +260,13 @@
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
         <script>
-            const table = new DataTable('#example');
+            const table = new DataTable('#example', {
+                dom: 'Bfrtp'
+            });
             const exampleFilterClassList = document.getElementById('example_filter').parentElement.classList;
             exampleFilterClassList.remove("col-sm-12");
             exampleFilterClassList.remove("col-md-6");
             exampleFilterClassList.add("col");
-            const exampleLengthClassList = document.getElementById('example_length').parentElement.classList;
-            exampleLengthClassList.remove("col-sm-12");
-            exampleLengthClassList.remove("col-md-6");
-            exampleLengthClassList.add("col");
             const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
             const appendAlert = (message, type) => {
                 const wrapper = document.createElement('div')
