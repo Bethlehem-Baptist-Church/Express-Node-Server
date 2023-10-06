@@ -113,7 +113,6 @@
     <body class="d-flex h-100 text-center text-bg-dark">
         <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
             <header class="mb-auto">
-                <div id="liveAlertPlaceholder"></div>
                 <div>
                     <nav class="navbar navbar-dark bg-dark">
                         <div class="container-fluid">
@@ -228,6 +227,7 @@
             </main>
             <footer class="mt-auto text-white-50">
                 <p><a href="https://getbootstrap.com/" class="text-white"></a><a href="https://twitter.com/mdo" class="text-white"></a></p>
+                <div id="liveAlertPlaceholder"></div>
             </footer>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -256,7 +256,7 @@
             const appendAlert = (message, type) => {
                 const wrapper = document.createElement('div')
                 wrapper.innerHTML = [
-                    `<div class="alert alert-${type} alert-dismissible animate__animated animate__slideInDown" role="alert">`,
+                    `<div class="alert alert-${type} alert-dismissible animate__animated animate__slideInUp" role="alert">`,
                     `   <div>${message}</div>`,
                     '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
                     '</div>'
