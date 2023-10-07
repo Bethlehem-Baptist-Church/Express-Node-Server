@@ -10,7 +10,7 @@ console.log(clientOpts);
 let dbConfig = {
     client: 'pg',
     connection: {
-        ...clientOpts,
+        clientOpts,
         user: 'postgres',
         password: process.env.pgsql_pass,
         database: 'postgres',
