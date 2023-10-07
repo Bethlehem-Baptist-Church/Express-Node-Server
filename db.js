@@ -2,6 +2,7 @@ const { Client } = require('pg');
 const settings = require("./config/localSettings.json");
 
 async function queryAllActivePrayerRequests() {
+    console.log('11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111');
     let dbConfig = {
         user: 'postgres',
         password: '',
@@ -26,7 +27,7 @@ async function queryAllActivePrayerRequests() {
     dbConfig.host = `${pgsql_host}`;
     dbConfig.host = `${pgsql_pass}`;
 
-    console.log(dbConfig);
+    console.log('222222222222222222222222222222222222222222222222222222222222222222222222222222222 ' + dbConfig);
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
         try {
