@@ -1,4 +1,5 @@
 const { Client } = require('pg');
+const settings = require("./config/localSettings.json");
 
 let dbConfig = {
     user: 'postgres',
@@ -12,14 +13,17 @@ let dbConfig = {
 console.log(dbConfig);
 
 async function queryAllActivePrayerRequests() {
-    if (null == process.env.pgsql_host) {
-        const settings = require('./config/localSettings.json');
-        dbConfig.host = settings.pgsql_host;
+    if(process.env.NODE_ENV == 'local') {
+        if (null == process.env.pgsql_host) {
+            const settings = require('./config/localSettings.json');
+            dbConfig.host = settings.pgsql_host;
+        }
+        if (null == process.env.pgsql_pass) {
+            const settings = require('./config/localSettings.json');
+            dbConfig.password = settings.pgsql_pass;
+        }
     }
-    if (null == process.env.pgsql_pass) {
-        const settings = require('./config/localSettings.json');
-        dbConfig.password = settings.pgsql_pass;
-    }
+
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
         try {
