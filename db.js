@@ -7,13 +7,16 @@ const clientOpts = await connector.getOptions({
     ipType: 'PUBLIC',
 });
 let dbConfig = {
-    ...clientOpts,
-    user: 'postgres',
-    password: process.env.pgsql_pass,
-    database: 'postgres',
-    host: process.env.pgsql_host,
-    port: 5432,
-    ssl: false
+    client: 'pg',
+    connection: {
+        ...clientOpts,
+        user: 'postgres',
+        password: process.env.pgsql_pass,
+        database: 'postgres',
+        host: process.env.pgsql_host,
+        port: 5432,
+        ssl: false
+    }
 };
 
 async function queryAllActivePrayerRequests() {
