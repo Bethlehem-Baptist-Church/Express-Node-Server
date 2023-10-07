@@ -1,6 +1,13 @@
 const { Client } = require('pg');
+const {Connector} = require('@google-cloud/cloud-sql-connector');
 
+const connector = new Connector();
+const clientOpts = await connector.getOptions({
+    instanceConnectionName: process.env.INSTANCE_CONNECTION_NAME,
+    ipType: getIpType(),
+});
 let dbConfig = {
+    ...clientOpts,
     user: 'postgres',
     password: process.env.pgsql_pass,
     database: 'postgres',
