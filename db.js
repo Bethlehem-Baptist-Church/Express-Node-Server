@@ -1,8 +1,7 @@
 const { Client } = require('pg');
 const settings = require("./config/localSettings.json");
 
-async function getSecrets() {
-    console.log(process.env);
+async function queryAllActivePrayerRequests() {
     let {pgsql_host} = process.env.pgsql_host;
     if (pgsql_host) {
         console.log(pgsql_host.toString('utf8'));
@@ -40,11 +39,7 @@ async function getSecrets() {
         port: 5432,
         ssl: false
     };
-    return dbConfig;
-}
 
-async function queryAllActivePrayerRequests() {
-    const dbConfig = await getSecrets();
     console.log(dbConfig);
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
