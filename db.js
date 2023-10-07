@@ -1,5 +1,4 @@
 const { Client } = require('pg');
-const settings = require("./config/localSettings.json");
 
 let dbConfig = {
     user: 'postgres',
@@ -9,8 +8,6 @@ let dbConfig = {
     port: 5432,
     ssl: false
 };
-
-console.log(dbConfig);
 
 async function queryAllActivePrayerRequests() {
     if(process.env.NODE_ENV == 'local') {
