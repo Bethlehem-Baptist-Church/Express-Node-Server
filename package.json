@@ -1,6 +1,6 @@
 {
   "name": "bb-church",
-  "version": "1.5.0",
+  "version": "1.5.5",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
