@@ -1,6 +1,32 @@
 const { Client } = require('pg');
 
 async function getSecrets() {
+    // CLOUD_SQL_CREDENTIALS_SECRET is the resource ID of the secret, passed in by environment variable.
+// Format: projects/PROJECT_ID/secrets/SECRET_ID/versions/VERSION
+    const {pgsql_host_v} = process.env;
+    let pgsql_host = '';
+    if (pgsql_host_v) {
+        try {
+            pgsql_host = JSON.parse(pgsql_host_v.toString('utf8'));
+        } catch (err) {
+            throw Error(
+                `Unable to parse secret from Secret Manager. Make sure that the secret is JSON formatted: ${err}`
+            );
+        }
+    }
+
+    const {pgsql_pass_v} = process.env;
+    let pgsql_pass = '';
+    if (pgsql_pass_v) {
+        try {
+            pgsql_pass = JSON.parse(pgsql_pass_v.toString('utf8'));
+        } catch (err) {
+            throw Error(
+                `Unable to parse secret from Secret Manager. Make sure that the secret is JSON formatted: ${err}`
+            );
+        }
+    }
+    /*
     const {SecretManagerServiceClient} = require('@google-cloud/secret-manager');
     const client = new SecretManagerServiceClient();
     const [pgsql_host_v] = await client.accessSecretVersion({
@@ -12,6 +38,7 @@ async function getSecrets() {
         name: 'projects/333759091775/secrets/pgsql-user-postgres/latest/version',
     });
     const pgsql_pass = pgsql_pass_v.payload.data.toString();
+    */
 
     const dbConfig = {
         user: 'postgres',
