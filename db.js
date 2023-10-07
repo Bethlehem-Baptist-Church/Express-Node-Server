@@ -6,6 +6,7 @@ const clientOpts = await connector.getOptions({
     instanceConnectionName: process.env.INSTANCE_CONNECTION_NAME,
     ipType: 'PUBLIC',
 });
+console.log(clientOpts);
 let dbConfig = {
     client: 'pg',
     connection: {
@@ -18,7 +19,7 @@ let dbConfig = {
         ssl: false
     }
 };
-
+console.log(dbConfig);
 async function queryAllActivePrayerRequests() {
     /*if(process.env.NODE_ENV == 'local') {
         if (null == process.env.pgsql_host) {
