@@ -150,8 +150,7 @@
                 }
             }
             td.dt-control {
-                padding-top: 15px;
-                padding-left: 15px;
+                padding-left: 12px;
                 text-align: center;
                 cursor: pointer;
             }
@@ -195,37 +194,10 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col"></th>
+                                                    <th scope="col">Request ID</th>
                                                     <th scope="col">Category</th>
-                                                    <th scope="col">Title</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>Health & Protection</td>
-                                                    <td>Good health for my family and protection over them</td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>Strength & Courage</td>
-                                                    <td>Courage to start a new school</td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>Recovery & Revival</td>
-                                                    <td>Recovery from covid sickness</td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>Peace & Happiness</td>
-                                                    <td>Remove anxiety for exam</td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>Mercy & Forgiveness</td>
-                                                    <td>Mercy for our country</td>
-                                                </tr>
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -252,11 +224,11 @@
                                                     <option value="8">Other</option>
                                                 </select>
                                             </div>
-                                            <div class="mb-1" style="text-align: left;">
+                                            <!--<div class="mb-1" style="text-align: left;">
                                                 <label class="form-label" for="title">Title</label>
                                                 <input class="form-control" name="title" id="title" type="text" placeholder="Title" data-sb-validations="required"/>
                                                 <div class="invalid-feedback" data-sb-feedback="title:required">Title is required.</div>
-                                            </div>
+                                            </div>-->
                                             <div class="mb-1" style="text-align: left;">
                                                 <label class="form-label" for="prayerRequest">Request Details</label>
                                                 <textarea class="form-control" name="prayerRequest" id="prayerRequest" type="text" placeholder="Prayer Request" style="height: 10rem;" data-sb-validations="required"></textarea>
@@ -313,15 +285,24 @@
                 return (
                     '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
                     '<tr>' +
-                    '<td style="">Details:</td>' +
-                    '<td>' + '<a href="">View</a>' +
-                    //d.device.toString().slice(15) +
+                    '<td style="padding-left: 83px;">' +
+                    '<td style="text-align: left;">' +
+                    d[2].toString() +
                     '</td>' +
                     '</tr>' +
+                    '<tr>' +
                     '</table>');
             }
 
-            const table = new DataTable('#example', {
+            let table = new DataTable('#example', {
+                ajax: {
+                    url: '/prayer/requests',
+                    type: 'GET',
+                    beforeSend: function (request) {},
+                    error: function (xhr, error, code) {
+                        alert('Please try again later. Error retrieving data for prayer request list: ' + error);
+                    }
+                },
                 columns: [
                     {
                         className: 'dt-control',
@@ -329,8 +310,8 @@
                         data: null,
                         defaultContent: '',
                     },
-                    {className: 'text-center'},
-                    {className: 'text-center'}
+                    {data: '0', className: 'text-center'},
+                    {data: '1', className: 'text-center'}
                 ],
                 order: [[1, 'desc']],
                 iDisplayLength: 5,
@@ -393,13 +374,13 @@
                     alerts.forEach(alert => alert.close());
 
                     const payload = {
-                        "title": $('#title').val(),
+                        //"title": $('#title').val(),
                         "category": $('#category option:selected').text(),
                         "prayerRequest": $('#prayerRequest').val()
                     };
 
                     if(null == payload.category || payload.category.length < 1){appendAlert('Category is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
-                    if(null == payload.title || payload.title.length < 1){appendAlert('Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
+                    //if(null == payload.title || payload.title.length < 1){appendAlert('Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
                     if(null == payload.prayerRequest || payload.prayerRequest.length < 1){appendAlert('Request details are required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
 
                     $('#overlay').fadeIn();
@@ -408,12 +389,44 @@
                         type: 'POST',
                         data : payload,
                         success: function(apiResponse){
-                            $('#title').val('');
+                            //$('#title').val('');
                             $('#category').val('1').change();
                             $('#prayerRequest').val('');
-                            $('#title').css("border", "0px solid black");
+                            //$('#title').css("border", "0px solid black");
                             $('#category').css("border", "0px solid black");
                             $('#prayerRequest').css("border", "0px solid black");
+                            $('#example').DataTable().clear().destroy();
+                            table = new DataTable('#example', {
+                                ajax: {
+                                    url: '/prayer/requests',
+                                    type: 'GET',
+                                    beforeSend: function (request) {},
+                                    error: function (xhr, error, code) {
+                                        alert('Please try again later. Error retrieving data for prayer request list: ' + error);
+                                    }
+                                },
+                                columns: [
+                                    {
+                                        className: 'dt-control',
+                                        orderable: false,
+                                        data: null,
+                                        defaultContent: '',
+                                    },
+                                    {data: '0', className: 'text-center'},
+                                    {data: '1', className: 'text-center'}
+                                ],
+                                order: [[1, 'desc']],
+                                iDisplayLength: 5,
+                                responsive: true,
+                                bFilter: true,
+                                bPaginate: true,
+                                bLengthChange: false,
+                                bInfo: false,
+                                bAutoWidth: false,
+                                dom: "<'row'<'col-sm-12 col-md-12'f>>" +
+                                    "<'row'<'col-sm-12'tr>>" +
+                                    "<'row'<'col-sm-12 col-md-12'p>>",
+                            });
                             appendAlert('Success! Prayer request was received.', 'success');
                             document.getElementById('alertNotification').scrollIntoView();
                             $('#overlay').fadeOut();
