@@ -372,7 +372,7 @@
             const appendAlert = (message, type) => {
                 const wrapper = document.createElement('div')
                 wrapper.innerHTML = [
-                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__slideInLeft" style="margin-bottom: 0px; height: 60px;" role="alert">`,
+                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__slideInUp" style="margin-bottom: 0px; height: 60px;" role="alert">`,
                     `   <div>${message}</div>`,
                     '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
                     '</div>'
@@ -384,7 +384,6 @@
             const alertTrigger = document.getElementById('submitButton')
             if (alertTrigger) {
                 alertTrigger.addEventListener('click', () => {
-                    $('#overlay').fadeIn();
                     const alertList = document.querySelectorAll('.alert');
                     const alerts = [...alertList].map(element => new bootstrap.Alert(element));
                     alerts.forEach(alert => alert.close());
@@ -395,10 +394,11 @@
                         "prayerRequest": $('#prayerRequest').val()
                     };
 
-                    if(null == payload.category || payload.category.length < 1){$('#overlay').fadeOut();appendAlert('Error! Category is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
-                    if(null == payload.title || payload.title.length < 1){$('#overlay').fadeOut();appendAlert('Error! Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
-                    if(null == payload.prayerRequest || payload.prayerRequest.length < 1){$('#overlay').fadeOut();appendAlert('Error! Request details are required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
+                    if(null == payload.category || payload.category.length < 1){appendAlert('Error! Category is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
+                    if(null == payload.title || payload.title.length < 1){appendAlert('Error! Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
+                    if(null == payload.prayerRequest || payload.prayerRequest.length < 1){appendAlert('Error! Request details are required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
 
+                    $('#overlay').fadeIn();
                     $.ajax({
                         url: '/prayer/submitPrayerRequest',
                         type: 'POST',
