@@ -33,9 +33,9 @@ async function queryAllActivePrayerRequests() {
 
     const dbConfig = {
         user: 'postgres',
-        password: pgsql_pass,
+        password: `${pgsql_pass}`,
         database: 'postgres',
-        host: pgsql_host,
+        host: `${pgsql_host}`,
         port: 5432,
         ssl: false
     };
