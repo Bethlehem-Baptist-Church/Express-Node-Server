@@ -5,6 +5,7 @@ async function getSecrets() {
     const {pgsql_host_v} = process.env;
     let pgsql_host = '';
     if (pgsql_host_v) {
+        console.log(pgsql_host_v.toString('utf8'));
         try {
             pgsql_host = JSON.parse(pgsql_host_v.toString('utf8'));
         } catch (err) {
