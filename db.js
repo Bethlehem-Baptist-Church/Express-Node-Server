@@ -10,7 +10,7 @@ let dbConfig = {
 };
 
 async function queryAllActivePrayerRequests() {
-    if(process.env.NODE_ENV == 'local') {
+    /*if(process.env.NODE_ENV == 'local') {
         if (null == process.env.pgsql_host) {
             const settings = require('./config/localSettings.json');
             dbConfig.host = settings.pgsql_host;
@@ -19,7 +19,7 @@ async function queryAllActivePrayerRequests() {
             const settings = require('./config/localSettings.json');
             dbConfig.password = settings.pgsql_pass;
         }
-    }
+    }*/
 
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
