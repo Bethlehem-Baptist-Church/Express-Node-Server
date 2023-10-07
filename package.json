@@ -6,6 +6,7 @@
     "start": "NODE_ENV=prod node ./bin/www"
   },
   "dependencies": {
+    "@google-cloud/cloud-sql-connector": "^1.0.0",
     "@google-cloud/secret-manager": "^5.0.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
