@@ -426,12 +426,12 @@
                                     "<'row'<'col-sm-12'tr>>" +
                                     "<'row'<'col-sm-12 col-md-12'p>>",
                             });
-                            appendAlert('Success! Prayer request was received.', 'success');
+                            appendAlert('Request was received.', 'success');
                             document.getElementById('alertNotification').scrollIntoView();
                             $('#overlay').fadeOut();
                         },
                         failure: function(apiResponse){
-                            appendAlert('Error! Prayer request was not received.', 'danger');
+                            appendAlert('Request was not received.', 'danger');
                             document.getElementById('alertNotification').scrollIntoView();
                             $('#overlay').fadeOut();
                         }
