@@ -2,6 +2,7 @@ const { Client } = require('pg');
 const settings = require("./config/localSettings.json");
 
 async function getSecrets() {
+    console.log(process.env);
     let {pgsql_host} = process.env;
     if (pgsql_host) {
         console.log(pgsql_host.toString('utf8'));
