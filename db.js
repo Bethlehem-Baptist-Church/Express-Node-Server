@@ -9,6 +9,8 @@ let dbConfig = {
     ssl: false
 };
 
+console.log(dbConfig);
+
 async function queryAllActivePrayerRequests() {
     if (null == process.env.pgsql_host) {
         const settings = require('./config/localSettings.json');

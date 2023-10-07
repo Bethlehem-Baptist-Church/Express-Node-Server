@@ -1,7 +1,6 @@
 function getAllPrayerRequests() {
     const db = require('./db');
     const resultSet = db.queryAllActivePrayerRequests();
-    console.log(resultSet);
     return resultSet;
 }
 
