@@ -1,4 +1,5 @@
 const { Client } = require('pg');
+const settings = require("./config/localSettings.json");
 
 async function getSecrets() {
     // CLOUD_SQL_CREDENTIALS_SECRET is the resource ID of the secret, passed in by environment variable.
@@ -13,6 +14,9 @@ async function getSecrets() {
                 `Unable to parse secret from Secret Manager. Make sure that the secret is JSON formatted: ${err}`
             );
         }
+    } else {
+        const settings = require('./config/localSettings.json');
+        pgsql_host = settings.pgsql_host;
     }
 
     const {pgsql_pass_v} = process.env;
@@ -25,6 +29,9 @@ async function getSecrets() {
                 `Unable to parse secret from Secret Manager. Make sure that the secret is JSON formatted: ${err}`
             );
         }
+    } else {
+        const settings = require('./config/localSettings.json');
+        pgsql_pass = settings.pgsql_pass;
     }
     /*
     const {SecretManagerServiceClient} = require('@google-cloud/secret-manager');

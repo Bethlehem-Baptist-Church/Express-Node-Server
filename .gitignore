@@ -128,3 +128,4 @@ dist
 
 .idea
 key.json
+config/localSettings.json
