@@ -2,49 +2,46 @@ const { Client } = require('pg');
 const settings = require("./config/localSettings.json");
 
 async function queryAllActivePrayerRequests() {
-    try {
-        console.log('11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111');
-        let dbConfig = {
-            user: 'postgres',
-            password: '',
-            database: 'postgres',
-            host: '',
-            port: 5432,
-            ssl: false
-        };
+    let dbConfig = {
+        user: 'postgres',
+        password: '',
+        database: 'postgres',
+        host: '',
+        port: 5432,
+        ssl: false
+    };
 
-        let pgsql_host = process.env.pgsql_host;
-        if (null == pgsql_host) {
-            const settings = require('./config/localSettings.json');
-            pgsql_host = settings.pgsql_host;
-        }
-
-        let pgsql_pass = process.env.pgsql_pass;
-        if (null == pgsql_pass) {
-            const settings = require('./config/localSettings.json');
-            pgsql_pass = settings.pgsql_pass;
-        }
-
-        dbConfig.host = `${pgsql_host}`;
-        dbConfig.host = `${pgsql_pass}`;
-
-        console.log('222222222222222222222222222222222222222222222222222222222222222222222222222222222 ' + dbConfig);
-        const dbClient = new Client(dbConfig);
-        return new Promise((resolve, reject) => {
-
-                dbClient.connect().then(() => {
-                    const query = `SELECT * FROM prayer_request WHERE request_status IN ('active','pending');`;
-
-                    dbClient.query(query).then((result) => {
-                        dbClient.end();
-                        resolve(result.rows);
-                    });
-                });
-        });
-    } catch (error) {
-        console.error('Error:', error);
-        return(error);
+    let pgsql_host = process.env.pgsql_host;
+    if (null == pgsql_host) {
+        const settings = require('./config/localSettings.json');
+        pgsql_host = settings.pgsql_host;
     }
+
+    let pgsql_pass = process.env.pgsql_pass;
+    if (null == pgsql_pass) {
+        const settings = require('./config/localSettings.json');
+        pgsql_pass = settings.pgsql_pass;
+    }
+
+    dbConfig.host = `${pgsql_host}`;
+    dbConfig.host = `${pgsql_pass}`;
+
+    const dbClient = new Client(dbConfig);
+    return new Promise((resolve, reject) => {
+        try {
+            dbClient.connect().then(() => {
+                const query = `SELECT * FROM prayer_request WHERE request_status IN ('active','pending');`;
+
+                dbClient.query(query).then((result) => {
+                    dbClient.end();
+                    resolve(result.rows);
+                });
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            reject(error);
+        }
+    });
 }
 
 async function insertPrayerRequest(input_category, input_details) {
