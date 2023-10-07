@@ -1,9 +1,9 @@
 const { Client } = require('pg');
-const settings = require("./config/localSettings.json");
+
+console.log('4444444444444444444444444444444444444444444444' + process.env.pgsql_host);
+console.log('4444444444444444444444444444444444444444444444' + process.env.pgsql_pass);
 
 async function queryAllActivePrayerRequests() {
-    console.log('4444444444444444444444444444444444444444444444' + process.env.pgsql_host);
-    console.log('4444444444444444444444444444444444444444444444' + process.env.pgsql_pass);
     let settings = require('./config/localSettings.example.json');
     let dbConfig = {
         user: 'postgres',

@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const utility = require('../util');
 
+console.log('2222222222222222222222222222222222222222222222' + process.env.pgsql_host);
+console.log('2222222222222222222222222222222222222222222222' + process.env.pgsql_pass);
+
 /* GET prayer page. */
 router.get('/', function(req, res, next) {
   res.render('prayer', { title: 'Prayer' });
@@ -10,8 +13,6 @@ router.get('/', function(req, res, next) {
 
 /* GET prayer requests. */
 router.get('/requests', function(req, res, next) {
-  console.log('2222222222222222222222222222222222222222222222' + process.env.pgsql_host);
-  console.log('2222222222222222222222222222222222222222222222' + process.env.pgsql_pass);
   utility.getAllPrayerRequests().then((resultSet) => {
     let prayerRequests = '{"data":[';
     if(null != resultSet && resultSet.length > 0) {
