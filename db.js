@@ -3,7 +3,7 @@ const settings = require("./config/localSettings.json");
 
 async function getSecrets() {
     console.log(process.env);
-    let {pgsql_host} = process.env;
+    let {pgsql_host} = process.env.pgsql_host;
     if (pgsql_host) {
         console.log(pgsql_host.toString('utf8'));
         try {
@@ -18,7 +18,7 @@ async function getSecrets() {
         pgsql_host = settings.pgsql_host;
     }
 
-    let {pgsql_pass} = process.env;
+    let {pgsql_pass} = process.env.pgsql_pass;
     if (pgsql_pass) {
         try {
             pgsql_pass = JSON.parse(pgsql_pass.toString('utf8'));
