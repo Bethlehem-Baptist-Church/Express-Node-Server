@@ -2,12 +2,11 @@ const { Client } = require('pg');
 const settings = require("./config/localSettings.json");
 
 async function getSecrets() {
-    const {pgsql_host_v} = process.env;
-    let pgsql_host = '';
-    if (pgsql_host_v) {
-        console.log(pgsql_host_v.toString('utf8'));
+    let {pgsql_host} = process.env;
+    if (pgsql_host) {
+        console.log(pgsql_host.toString('utf8'));
         try {
-            pgsql_host = JSON.parse(pgsql_host_v.toString('utf8'));
+            pgsql_host = JSON.parse(pgsql_host.toString('utf8'));
         } catch (err) {
             throw Error(
                 `Unable to parse secret from Secret Manager. Make sure that the secret is JSON formatted: ${err}`
@@ -18,11 +17,10 @@ async function getSecrets() {
         pgsql_host = settings.pgsql_host;
     }
 
-    const {pgsql_pass_v} = process.env;
-    let pgsql_pass = '';
-    if (pgsql_pass_v) {
+    let {pgsql_pass} = process.env;
+    if (pgsql_pass) {
         try {
-            pgsql_pass = JSON.parse(pgsql_pass_v.toString('utf8'));
+            pgsql_pass = JSON.parse(pgsql_pass.toString('utf8'));
         } catch (err) {
             throw Error(
                 `Unable to parse secret from Secret Manager. Make sure that the secret is JSON formatted: ${err}`
