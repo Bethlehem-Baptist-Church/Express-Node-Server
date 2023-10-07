@@ -45,6 +45,7 @@ async function getSecrets() {
 
 async function queryAllActivePrayerRequests() {
     const dbConfig = await getSecrets();
+    console.log(dbConfig);
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
         try {
