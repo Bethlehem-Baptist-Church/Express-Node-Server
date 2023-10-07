@@ -9,17 +9,6 @@ let dbConfig = {
 };
 console.log(dbConfig);
 async function queryAllActivePrayerRequests() {
-    /*if(process.env.NODE_ENV == 'local') {
-        if (null == process.env.pgsql_host) {
-            const settings = require('./config/localSettings.json');
-            dbConfig.host = settings.pgsql_host;
-        }
-        if (null == process.env.pgsql_pass) {
-            const settings = require('./config/localSettings.json');
-            dbConfig.password = settings.pgsql_pass;
-        }
-    }*/
-
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
         try {
@@ -39,7 +28,6 @@ async function queryAllActivePrayerRequests() {
 }
 
 async function insertPrayerRequest(input_category, input_details) {
-    const dbConfig = await getSecrets();
     const input_dt = Math.round(new Date().getTime() / 1000);
     const input_status = 'pending';
     const dbClient = new Client(dbConfig);
