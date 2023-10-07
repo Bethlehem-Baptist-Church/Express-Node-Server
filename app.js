@@ -20,6 +20,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+console.log(process.env.pgsql_host);
+console.log(process.env.pgsql_pass);
+
 app.use('/', indexRouter);
 app.use('/prayer', prayerRouter);
 app.use('/users', usersRouter);

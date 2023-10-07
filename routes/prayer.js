@@ -10,6 +10,8 @@ router.get('/', function(req, res, next) {
 
 /* GET prayer requests. */
 router.get('/requests', function(req, res, next) {
+  console.log(process.env.pgsql_host);
+  console.log(process.env.pgsql_pass);
   utility.getAllPrayerRequests().then((resultSet) => {
     let prayerRequests = '{"data":[';
     if(null != resultSet && resultSet.length > 0) {

@@ -1,4 +1,6 @@
 function getAllPrayerRequests() {
+    console.log(process.env.pgsql_host);
+    console.log(process.env.pgsql_pass);
     const db = require('./db');
     const resultSet = db.queryAllActivePrayerRequests();
     console.log(resultSet);
