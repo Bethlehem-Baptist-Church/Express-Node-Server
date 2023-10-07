@@ -1,29 +1,23 @@
 const { Client } = require('pg');
 
-console.log('4444444444444444444444444444444444444444444444' + process.env.pgsql_host);
-console.log('4444444444444444444444444444444444444444444444' + process.env.pgsql_pass);
+let dbConfig = {
+    user: 'postgres',
+    password: process.env.pgsql_pass,
+    database: 'postgres',
+    host: process.env.pgsql_host,
+    port: 5432,
+    ssl: false
+};
 
 async function queryAllActivePrayerRequests() {
-    let settings = require('./config/localSettings.example.json');
-    let dbConfig = {
-        user: 'postgres',
-        password: process.env.pgsql_pass,
-        database: 'postgres',
-        host: process.env.pgsql_host,
-        port: 5432,
-        ssl: false
-    };
-
     if (null == process.env.pgsql_host) {
-        settings = require('./config/localSettings.json');
+        const settings = require('./config/localSettings.json');
         dbConfig.host = settings.pgsql_host;
     }
-
     if (null == process.env.pgsql_pass) {
-        settings = require('./config/localSettings.json');
+        const settings = require('./config/localSettings.json');
         dbConfig.password = settings.pgsql_pass;
     }
-
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
         try {

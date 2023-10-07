@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const utility = require('../util');
 
-console.log('2222222222222222222222222222222222222222222222' + process.env.pgsql_host);
-console.log('2222222222222222222222222222222222222222222222' + process.env.pgsql_pass);
-
 /* GET prayer page. */
 router.get('/', function(req, res, next) {
   res.render('prayer', { title: 'Prayer' });
