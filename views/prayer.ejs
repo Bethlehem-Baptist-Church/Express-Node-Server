@@ -281,8 +281,8 @@
                     <br/>
                     Submitting...
                 </div>
-                <div id="liveAlertPlaceholder"></div>
             </footer>
+            <div id="liveAlertPlaceholder"></div>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
             <symbol id="check-circle-fill" viewBox="0 0 16 16">
@@ -371,10 +371,14 @@
             const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
             const appendAlert = (message, type) => {
                 const wrapper = document.createElement('div')
+                let spanTag = `<svg style="width: 35px; height: 35px; padding-top: 15px; display: inline;" class="bi shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#check-circle-fill"/></svg>`;
+                if(type === 'danger') {
+                    spanTag = `<svg style="width: 35px; height: 35px; padding-top: 15px; display: inline;" class="bi shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>`;
+                }
                 wrapper.innerHTML = [
-                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__slideInUp" style="margin-bottom: 0px; height: 60px;" role="alert">`,
-                    `   <div>${message}</div>`,
-                    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__flipInX" style="margin: 0px; height: 80px;" role="alert">`,
+                    `${spanTag} <div style=" display: inline; font-size: x-large">${message}</div>`,
+                    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="margin-top: 15px;"></button>',
                     '</div>'
                 ].join('')
 
@@ -394,9 +398,9 @@
                         "prayerRequest": $('#prayerRequest').val()
                     };
 
-                    if(null == payload.category || payload.category.length < 1){appendAlert('Error! Category is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
-                    if(null == payload.title || payload.title.length < 1){appendAlert('Error! Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
-                    if(null == payload.prayerRequest || payload.prayerRequest.length < 1){appendAlert('Error! Request details are required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
+                    if(null == payload.category || payload.category.length < 1){appendAlert('Category is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
+                    if(null == payload.title || payload.title.length < 1){appendAlert('Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
+                    if(null == payload.prayerRequest || payload.prayerRequest.length < 1){appendAlert('Request details are required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
 
                     $('#overlay').fadeIn();
                     $.ajax({
