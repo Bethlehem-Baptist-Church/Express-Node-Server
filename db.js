@@ -5,27 +5,22 @@ async function queryAllActivePrayerRequests() {
     let settings = require('./config/localSettings.example.json');
     let dbConfig = {
         user: 'postgres',
-        password: '',
+        password: process.env.pgsql_pass,
         database: 'postgres',
-        host: '',
+        host: process.env.pgsql_host,
         port: 5432,
         ssl: false
     };
 
-    let pgsql_host = process.env.pgsql_host;
-    if (null == pgsql_host) {
+    if (null == process.env.pgsql_host) {
         settings = require('./config/localSettings.json');
-        pgsql_host = settings.pgsql_host;
+        dbConfig.host = settings.pgsql_host;
     }
 
-    let pgsql_pass = process.env.pgsql_pass;
-    if (null == pgsql_pass) {
+    if (null == process.env.pgsql_pass) {
         settings = require('./config/localSettings.json');
-        pgsql_pass = settings.pgsql_pass;
+        dbConfig.password = settings.pgsql_pass;
     }
-
-    dbConfig.host = `${pgsql_host}`;
-    dbConfig.host = `${pgsql_pass}`;
 
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
