@@ -18,7 +18,7 @@
                         <div class="col animate__animated animate__flipInY">
                             <div class="card border-dark mb-3" style="margin-top: 40px; border-radius: 30px 30px 40px 40px; max-width: 30rem; text-align: center; display: grid">
                                 <div class="card-header" style="font-weight: bold; text-align: center; display: grid; font-size: x-large;">Search Prayer Requests</div>
-                                <div class="card-body" style="border-radius: 0px 0px 30px 30px; text-align: center;  display: grid; background-color: #1F2735; border-color: #1F2735; color: white;">
+                                <div class="card-body" style="border-radius: 0px 0px 30px 30px; text-align: center;  display: grid; background-color: #2B374A; border-color: #2B374A; color: white;">
                                     <div style="">
                                         <table class="table table-dark table-striped prayerListTable" id="example" name="example" style="width: 100%;">
                                             <thead>
@@ -38,7 +38,7 @@
                         <div class="col animate__animated animate__flipInY" style="text-align: center">
                             <div class="card border-dark mb-3" style="margin-top: 40px; border-radius: 30px 30px 40px 40px; max-width: 30rem; text-align: center; display: grid">
                                 <div class="card-header" style="text-align: center; font-weight: bold; font-size: x-large;">Create Prayer Request</div>
-                                <div class="card-body" style="border-radius: 0px 0px 30px 30px; text-align: center;  display: grid; background-color: #1F2735; border-color: #1F2735; color: white;">
+                                <div class="card-body" style="border-radius: 0px 0px 30px 30px; text-align: center;  display: grid; background-color: #2B374A; border-color: #2B374A; color: white;">
                                     <div class="container px-2 my-2" style="padding-top: 0px;">
                                         <form id="contactForm">
                                             <div class="mb-1" style="text-align: left;">
@@ -77,8 +77,10 @@
                     <br/>
                     Submitting...
                 </div>
+                <div id="overlayAlert" style="display:none;">
+                    <div style="opacity: 100%; !important;" id="liveAlertPlaceholder"></div>
+                </div>
             </footer>
-            <div id="liveAlertPlaceholder"></div>
         </div>
         <%- include('partials/js') %>
         <!--<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
@@ -162,14 +164,15 @@
             const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
             const appendAlert = (message, type) => {
                 const wrapper = document.createElement('div')
-                let spanTag = `<svg style="width: 35px; height: 35px; padding-top: 15px; display: inline;" class="bi shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#check-circle-fill"/></svg>`;
+                let spanTag = `<svg style="width: 50px; height: 50px; padding-top: 20px; display: inline;" class="bi shrink-0 me-1" role="img" aria-label="Info:"><use xlink:href="#check-circle-fill"/></svg>`;
                 if(type === 'danger') {
-                    spanTag = `<svg style="width: 35px; height: 35px; padding-top: 15px; display: inline;" class="bi shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>`;
+                    spanTag = `<svg style="width: 50px; height: 50px; padding-top: 20px; display: inline;" class="bi shrink-0 me-1" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>`;
                 }
                 wrapper.innerHTML = [
-                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__flipInX" style="margin: 0px; height: 80px;" role="alert">`,
-                    `${spanTag} <div style=" display: inline; font-size: larger">${message}</div>`,
-                    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="margin-top: 15px;"></button>',
+                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__flipInX myAlert-top" style="margin: 0px; height: 150px;" role="alert">`,
+                    `${spanTag}`,
+                    `<div style="font-size: larger; padding-top: 10px;">${message}</div>`,
+                    '<button type="button" onclick="$(\'#overlayAlert\').fadeOut()" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="margin-top: 45px; margin-right: 50px;"></button>',
                     '</div>'
                 ].join('')
 
@@ -191,7 +194,7 @@
 
                     if(null == payload.category || payload.category.length < 1){appendAlert('Category is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
                     //if(null == payload.title || payload.title.length < 1){appendAlert('Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
-                    if(null == payload.prayerRequest || payload.prayerRequest.length < 1){appendAlert('Request details are required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
+                    if(null == payload.prayerRequest || payload.prayerRequest.length < 1){$('#overlayAlert').fadeIn();appendAlert('Request details are required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
 
                     $('#overlay').fadeIn();
                     $.ajax({
@@ -206,6 +209,9 @@
                             $('#category').css("border", "0px solid black");
                             $('#prayerRequest').css("border", "0px solid black");
                             $('#example').DataTable().clear().destroy();
+                            appendAlert('Request was received.', 'success');
+                            document.getElementById('alertNotification').scrollIntoView();
+                            $('#overlay').fadeOut();
                             table = new DataTable('#example', {
                                 ajax: {
                                     url: '/prayer/requests',
@@ -237,9 +243,6 @@
                                     "<'row'<'col-sm-12'tr>>" +
                                     "<'row'<'col-sm-12 col-md-12'p>>",
                             });
-                            appendAlert('Request was received.', 'success');
-                            document.getElementById('alertNotification').scrollIntoView();
-                            $('#overlay').fadeOut();
                         },
                         failure: function(apiResponse){
                             appendAlert('Request was not received.', 'danger');

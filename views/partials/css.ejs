@@ -226,6 +226,23 @@
         padding-top: 25%;
         opacity: .80;
     }
+    #overlayAlert {
+        background: black;
+        color: white;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 5000;
+        top: 0;
+        left: 0;
+        float: left;
+        text-align: center;
+        padding-top: 25%;
+        opacity: 80%;
+    }
+    #liveAlertPlaceholder {
+        opacity: 100%;
+    }
     .spinner {
         margin: 0 auto;
         height: 64px;
@@ -244,7 +261,9 @@
         }
     }
     td.dt-control {
-        padding-left: 12px;
+        padding-left: 10px;
+        padding-top: 8px;
+        padding-bottom: 15px;
         text-align: center;
         cursor: pointer;
     }
@@ -252,5 +271,10 @@
         border: 1px solid #343a40;
         borderRadius: 15px;
         overflow: hidden;
+    }
+    .myAlert-top{
+        position: fixed;
+        top: 0px;
+        width: 100%;
     }
 </style>
