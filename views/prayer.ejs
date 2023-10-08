@@ -209,9 +209,7 @@
                             $('#category').css("border", "0px solid black");
                             $('#prayerRequest').css("border", "0px solid black");
                             $('#example').DataTable().clear().destroy();
-                            appendAlert('Request was received.', 'success');
-                            document.getElementById('alertNotification').scrollIntoView();
-                            $('#overlay').fadeOut();
+
                             table = new DataTable('#example', {
                                 ajax: {
                                     url: '/prayer/requests',
@@ -243,6 +241,9 @@
                                     "<'row'<'col-sm-12'tr>>" +
                                     "<'row'<'col-sm-12 col-md-12'p>>",
                             });
+                            appendAlert('Request was received.', 'success');
+                            document.getElementById('alertNotification').scrollIntoView();
+                            $('#overlay').fadeOut();
                         },
                         failure: function(apiResponse){
                             appendAlert('Request was not received.', 'danger');
