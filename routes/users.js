@@ -1,3 +1,7 @@
+/*
+  Filename: users.js
+  Author: Timothy Damir Kovacic
+ */
 const express = require('express');
 const router = express.Router();
 

@@ -1,3 +1,7 @@
+/*
+  Filename: util.js
+  Author: Timothy Damir Kovacic
+ */
 function getAllPrayerRequests() {
     const db = require('./db');
     const resultSet = db.queryAllActivePrayerRequests();

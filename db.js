@@ -1,3 +1,7 @@
+/*
+  Filename: db.js
+  Author: Timothy Damir Kovacic
+ */
 const { Client } = require('pg');
 let dbConfig = {
     user: 'postgres',
