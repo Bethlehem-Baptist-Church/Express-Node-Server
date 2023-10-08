@@ -172,10 +172,10 @@
                     spanTag = `<svg style="width: 50px; height: 50px; padding-top: 20px; display: inline;" class="bi shrink-0 me-1" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>`;
                 }
                 wrapper.innerHTML = [
-                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__flipInX myAlert-top" style="margin: 0px; height: 150px;" role="alert">`,
+                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__slideInLeft myAlert-top" style="margin: 0px; height: 150px;" role="alert">`,
                     `${spanTag}`,
                     `<div style="font-size: larger; padding-top: 10px;">${message}</div>`,
-                    '<button type="button" onclick="$(\'#overlayAlert\').fadeOut()" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="margin-top: 45px; margin-right: 30px;"></button>',
+                    '<button type="button" onclick="$(\'#overlayAlert\').fadeOut()" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="margin-top: 45px; margin-right: 10px;"></button>',
                     '</div>'
                 ].join('')
 
