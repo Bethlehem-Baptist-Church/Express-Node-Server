@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=prod node ./bin/www"
+    "start": "NODE_ENV=local node ./bin/www"
   },
   "dependencies": {
     "@google-cloud/cloud-sql-connector": "^1.0.0",

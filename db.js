@@ -7,14 +7,17 @@ let dbConfig = {
     port: 5432,
     ssl: false
 };
-console.log(dbConfig);
+if(process.env.NODE_ENV === 'local') {
+    const settings = require('./config/localSettings.json');
+    dbConfig.password = settings.pgsql_pass.toString();
+    dbConfig.host = settings.pgsql_host.toString();
+}
 async function queryAllActivePrayerRequests() {
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
         try {
             dbClient.connect().then(() => {
                 const query = `SELECT * FROM prayer_request WHERE request_status IN ('active','pending');`;
-
                 dbClient.query(query).then((result) => {
                     dbClient.end();
                     resolve(result.rows);
@@ -47,7 +50,6 @@ async function insertPrayerRequest(input_category, input_details) {
         }
     });
 }
-
 module.exports = {
     queryAllActivePrayerRequests,
     insertPrayerRequest
