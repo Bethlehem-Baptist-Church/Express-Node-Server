@@ -86,7 +86,6 @@
                 </div>
             </footer>
         </div>
-        <%- include('partials/js') %>
         <!--<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
         <df-messenger
                 chat-icon="https:&#x2F;&#x2F;bethlehem-baptist-church-mga46uiygq-uc.a.run.app&#x2F;images&#x2F;dialogflowHelperIcon.png"
@@ -95,170 +94,171 @@
                 agent-id="4583037b-8da7-44fb-a16d-fd205dab2191"
                 language-code="en"
         ></df-messenger>-->
-        <script>
-            function format(d) {
-                return (
-                    '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-                    '<tr>' +
-                    '<td style="padding-left: 10px;">' +
-                    '<td style="text-align: left;">' +
-                    d[2].toString() +
-                    '</td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '</table>'
-                );
-            }
-
-            let table = new DataTable('#example', {
-                ajax: {
-                    url: '/prayer/requests',
-                    type: 'GET',
-                    beforeSend: function (request) {},
-                    error: function (xhr, error, code) {
-                        alert('Please try again later. Error retrieving data for prayer request list: ' + error);
-                    }
-                },
-                columns: [
-                    {
-                        className: 'dt-control',
-                        orderable: false,
-                        data: null,
-                        defaultContent: '',
-                    },
-                    {data: '0', className: 'text-center'},
-                    {data: '1', className: 'text-center'}
-                ],
-                order: [[1, 'desc']],
-                iDisplayLength: 5,
-                responsive: true,
-                bFilter: true,
-                bPaginate: true,
-                bLengthChange: false,
-                bInfo: false,
-                bAutoWidth: false,
-                dom: "<'row'<'col-sm-12 col-md-12 my-3'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-12 col-md-12 my-3'p>>",
-            });
-
-            $("#example").on('xhr.dt', function (e, settings, json, xhr) {
-                $('#overlay').fadeOut();
-            });
-
-            $('#example tbody').on('click', 'td.dt-control', function () {
-                var tr = $(this).closest('tr');
-                var row = table.row(tr);
-
-                if (row.child.isShown()) {
-                    // This row is already open - close it
-                    row.child.hide();
-                    tr.removeClass('shown');
-                } else {
-                    // Open this row
-                    row.child(format(row.data())).show();
-                    tr.addClass('shown');
-                }
-            });
-
-            const exampleFilterClassList = document.getElementById('example_filter').parentElement.classList;
-            exampleFilterClassList.remove("col-sm-12");
-            exampleFilterClassList.remove("col-md-6");
-            exampleFilterClassList.add("col");
-            const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-            const appendAlert = (message, type) => {
-                const wrapper = document.createElement('div')
-                let spanTag = `<svg style="width: 50px; height: 50px; padding-top: 20px; display: inline;" class="bi shrink-0 me-1" role="img" aria-label="Info:"><use xlink:href="#check-circle-fill"/></svg>`;
-                if(type === 'danger') {
-                    spanTag = `<svg style="width: 50px; height: 50px; padding-top: 20px; display: inline;" class="bi shrink-0 me-1" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>`;
-                }
-                wrapper.innerHTML = [
-                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__slideInLeft myAlert-top" style="margin: 0px; height: 150px;" role="alert">`,
-                    `${spanTag}`,
-                    `<div style="font-size: larger; padding-top: 10px;">${message}</div>`,
-                    '<button type="button" onclick="$(\'#overlayAlert\').fadeOut()" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="margin-top: 45px; margin-right: 10px;"></button>',
-                    '</div>'
-                ].join('')
-
-                alertPlaceholder.append(wrapper)
-            }
-
-            const alertTrigger = document.getElementById('submitButton')
-            if (alertTrigger) {
-                alertTrigger.addEventListener('click', () => {
-                    const alertList = document.querySelectorAll('.alert');
-                    const alerts = [...alertList].map(element => new bootstrap.Alert(element));
-                    alerts.forEach(alert => alert.close());
-
-                    const payload = {
-                        //"title": $('#title').val(),
-                        "category": $('#category option:selected').text(),
-                        "prayerRequest": $('#prayerRequest').val()
-                    };
-
-                    if(null == payload.category || payload.category.length < 1){$('#overlayAlert').fadeIn();appendAlert('Category is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
-                    //if(null == payload.title || payload.title.length < 1){appendAlert('Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
-                    if(null == payload.prayerRequest || payload.prayerRequest.length < 1){$('#overlayAlert').fadeIn();appendAlert('Request details are required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
-
-                    $('#overlay').fadeIn();
-                    $.ajax({
-                        url: '/prayer/submitPrayerRequest',
-                        type: 'POST',
-                        data : payload,
-                        success: function(apiResponse){
-                            //$('#title').val('');
-                            $('#category').val('1').change();
-                            $('#prayerRequest').val('');
-                            //$('#title').css("border", "0px solid black");
-                            $('#category').css("border", "0px solid black");
-                            $('#prayerRequest').css("border", "0px solid black");
-                            $('#example').DataTable().clear().destroy();
-
-                            table = new DataTable('#example', {
-                                ajax: {
-                                    url: '/prayer/requests',
-                                    type: 'GET',
-                                    beforeSend: function (request) {},
-                                    error: function (xhr, error, code) {
-                                        alert('Please try again later. Error retrieving data for prayer request list: ' + error);
-                                    }
-                                },
-                                columns: [
-                                    {
-                                        className: 'dt-control',
-                                        orderable: false,
-                                        data: null,
-                                        defaultContent: '',
-                                    },
-                                    {data: '0', className: 'text-center'},
-                                    {data: '1', className: 'text-center'}
-                                ],
-                                order: [[1, 'desc']],
-                                iDisplayLength: 5,
-                                responsive: true,
-                                bFilter: true,
-                                bPaginate: true,
-                                bLengthChange: false,
-                                bInfo: false,
-                                bAutoWidth: false,
-                                dom: "<'row'<'col-sm-12 col-md-12'f>>" +
-                                    "<'row'<'col-sm-12'tr>>" +
-                                    "<'row'<'col-sm-12 col-md-12'p>>",
-                            });
-                            $('#overlayAlert').fadeIn();
-                            appendAlert('Request was received.', 'success');
-                            document.getElementById('alertNotification').scrollIntoView();
-                            $('#overlay').fadeOut();
-                        },
-                        failure: function(apiResponse){
-                            $('#overlayAlert').fadeIn();
-                            appendAlert('Request was not received.', 'danger');
-                            document.getElementById('alertNotification').scrollIntoView();
-                            $('#overlay').fadeOut();
-                        }
-                    });
-                })
-            }
-        </script>
     </body>
+    <%- include('partials/js') %><%- include('partials/js') %>
+    <script>
+        function format(d) {
+            return (
+                '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                '<tr>' +
+                '<td style="padding-left: 10px;">' +
+                '<td style="text-align: left;">' +
+                d[2].toString() +
+                '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '</table>'
+            );
+        }
+
+        let table = new DataTable('#example', {
+            ajax: {
+                url: '/prayer/requests',
+                type: 'GET',
+                beforeSend: function (request) {},
+                error: function (xhr, error, code) {
+                    alert('Please try again later. Error retrieving data for prayer request list: ' + error);
+                }
+            },
+            columns: [
+                {
+                    className: 'dt-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: '',
+                },
+                {data: '0', className: 'text-center'},
+                {data: '1', className: 'text-center'}
+            ],
+            order: [[1, 'desc']],
+            iDisplayLength: 5,
+            responsive: true,
+            bFilter: true,
+            bPaginate: true,
+            bLengthChange: false,
+            bInfo: false,
+            bAutoWidth: false,
+            dom: "<'row'<'col-sm-12 col-md-12 my-3'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-12 my-3'p>>",
+        });
+
+        $("#example").on('xhr.dt', function (e, settings, json, xhr) {
+            $('#overlay').fadeOut();
+        });
+
+        $('#example tbody').on('click', 'td.dt-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+        const exampleFilterClassList = document.getElementById('example_filter').parentElement.classList;
+        exampleFilterClassList.remove("col-sm-12");
+        exampleFilterClassList.remove("col-md-6");
+        exampleFilterClassList.add("col");
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+        const appendAlert = (message, type) => {
+            const wrapper = document.createElement('div')
+            let spanTag = `<svg style="width: 50px; height: 50px; padding-top: 20px; display: inline;" class="bi shrink-0 me-1" role="img" aria-label="Info:"><use xlink:href="#check-circle-fill"/></svg>`;
+            if(type === 'danger') {
+                spanTag = `<svg style="width: 50px; height: 50px; padding-top: 20px; display: inline;" class="bi shrink-0 me-1" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>`;
+            }
+            wrapper.innerHTML = [
+                `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__slideInLeft myAlert-top" style="margin: 0px; height: 150px;" role="alert">`,
+                `${spanTag}`,
+                `<div style="font-size: larger; padding-top: 10px;">${message}</div>`,
+                '<button type="button" onclick="$(\'#overlayAlert\').fadeOut()" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="margin-top: 45px; margin-right: 10px;"></button>',
+                '</div>'
+            ].join('')
+
+            alertPlaceholder.append(wrapper)
+        }
+
+        const alertTrigger = document.getElementById('submitButton')
+        if (alertTrigger) {
+            alertTrigger.addEventListener('click', () => {
+                const alertList = document.querySelectorAll('.alert');
+                const alerts = [...alertList].map(element => new bootstrap.Alert(element));
+                alerts.forEach(alert => alert.close());
+
+                const payload = {
+                    //"title": $('#title').val(),
+                    "category": $('#category option:selected').text(),
+                    "prayerRequest": $('#prayerRequest').val()
+                };
+
+                if(null == payload.category || payload.category.length < 1){$('#overlayAlert').fadeIn();appendAlert('Category is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
+                //if(null == payload.title || payload.title.length < 1){appendAlert('Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
+                if(null == payload.prayerRequest || payload.prayerRequest.length < 1){$('#overlayAlert').fadeIn();appendAlert('Request details are required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
+
+                $('#overlay').fadeIn();
+                $.ajax({
+                    url: '/prayer/submitPrayerRequest',
+                    type: 'POST',
+                    data : payload,
+                    success: function(apiResponse){
+                        //$('#title').val('');
+                        $('#category').val('1').change();
+                        $('#prayerRequest').val('');
+                        //$('#title').css("border", "0px solid black");
+                        $('#category').css("border", "0px solid black");
+                        $('#prayerRequest').css("border", "0px solid black");
+                        $('#example').DataTable().clear().destroy();
+
+                        table = new DataTable('#example', {
+                            ajax: {
+                                url: '/prayer/requests',
+                                type: 'GET',
+                                beforeSend: function (request) {},
+                                error: function (xhr, error, code) {
+                                    alert('Please try again later. Error retrieving data for prayer request list: ' + error);
+                                }
+                            },
+                            columns: [
+                                {
+                                    className: 'dt-control',
+                                    orderable: false,
+                                    data: null,
+                                    defaultContent: '',
+                                },
+                                {data: '0', className: 'text-center'},
+                                {data: '1', className: 'text-center'}
+                            ],
+                            order: [[1, 'desc']],
+                            iDisplayLength: 5,
+                            responsive: true,
+                            bFilter: true,
+                            bPaginate: true,
+                            bLengthChange: false,
+                            bInfo: false,
+                            bAutoWidth: false,
+                            dom: "<'row'<'col-sm-12 col-md-12'f>>" +
+                                "<'row'<'col-sm-12'tr>>" +
+                                "<'row'<'col-sm-12 col-md-12'p>>",
+                        });
+                        $('#overlayAlert').fadeIn();
+                        appendAlert('Request was received.', 'success');
+                        document.getElementById('alertNotification').scrollIntoView();
+                        $('#overlay').fadeOut();
+                    },
+                    failure: function(apiResponse){
+                        $('#overlayAlert').fadeIn();
+                        appendAlert('Request was not received.', 'danger');
+                        document.getElementById('alertNotification').scrollIntoView();
+                        $('#overlay').fadeOut();
+                    }
+                });
+            })
+        }
+    </script>
 </html>
