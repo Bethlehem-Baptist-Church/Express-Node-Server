@@ -27,7 +27,7 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col"></th>
-                                                    <th scope="col">Request ID</th>
+                                                    <th scope="col">Prayer ID</th>
                                                     <th scope="col">Category</th>
                                                 </tr>
                                             </thead>
@@ -131,6 +131,14 @@
                 {data: '1', className: 'text-center'}
             ],
             order: [[1, 'desc']],
+            columnDefs: [
+                {
+                    render: function (data) {
+                        return 'REQ' + data;
+                    },
+                    targets: 1,
+                }
+            ],
             iDisplayLength: 5,
             responsive: true,
             bFilter: true,
