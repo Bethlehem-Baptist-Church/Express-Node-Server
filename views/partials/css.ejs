@@ -93,6 +93,45 @@
     .bd-mode-toggle .dropdown-menu .active .bi {
         display: block !important;
     }
+
+    table.dataTable td.dt-control::before shown {
+        background-color: #915656;!important;
+        color: white;!important;
+        border: .15em solid white;!important;
+    }
+    table.dataTable td.dt-control::before {
+        background-color: #749155;!important;
+        color: white;!important;
+        border: .15em solid white;!important;
+    }
+    table.dataTable tr.dt-hasChild td.dt-control::before shown {
+        background-color: #915656;!important;
+        color: white;!important;
+        border: .15em solid white;!important;
+    }
+    td.sorting_1.dtr-control {
+        padding-top: 15px;
+        text-align: center;
+        cursor: pointer;
+    }
+    table.dataTable.dtr-inline.collapsed tbody tr td.dtr-control::before shown {
+        background-color: #915656;!important;
+        color: white;!important;
+        border: .15em solid white;!important;
+    }
+    table.dataTable.dtr-inline.collapsed tbody tr td.dtr-control::before {
+        background-color: #749155;!important;
+        color:white;!important;
+        border: .15em solid white;!important;
+    }
+    table.dataTable.dtr-inline.collapsed tbody tr.dt-hasChild td.dtr-control::before shown {
+        background-color: #915656;!important;
+        color: white;!important;
+        border: .15em solid white;!important;
+    }
+    table.dataTable tbody tr.child ul.dtr-details li {
+        border-bottom: 0px;
+    }
 </style>
 <style>
     /* Round Corner for TOP LEFT COLUMN */
@@ -232,14 +271,6 @@
     }
     #overlayAlert {
         position: fixed;
-        height: 100%;
-        width: 100%;
-        z-index: 5000;
-        top: 0;
-        left: 0;
-        float: left;
-        text-align: center;
-        padding-top: 25%;
         opacity: 100%;
     }
     #liveAlertPlaceholder {
@@ -276,7 +307,7 @@
     }
     .myAlert-top{
         position: fixed;
-        top: 0px;
+        bottom: 0px;
         width: 100%;
     }
 </style>
