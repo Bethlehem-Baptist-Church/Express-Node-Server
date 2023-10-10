@@ -211,7 +211,7 @@
 
                 $('#overlay').fadeIn();
                 $.ajax({
-                    url: '/prayer/submitPrayerRequest',
+                    url: '/prayer/submit',
                     type: 'POST',
                     data : payload,
                     success: function(apiResponse){
