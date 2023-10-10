@@ -104,7 +104,7 @@
                 const payload = {
                     //"title": $('#title').val(),
                     "category": $('#category option:selected').text(),
-                    "prayerRequest": $('#prayerRequest').val();
+                    "prayerRequest": $('#prayerRequest').val()
                 };
 
                 if(null == payload.category || payload.category.length < 1){$('#overlayAlert').fadeIn();appendAlert('Category is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
