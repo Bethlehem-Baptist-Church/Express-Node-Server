@@ -25,9 +25,9 @@ if (alertTrigger) {
             "category": $('#category option:selected').text(),
             "prayerRequest": $('#prayerRequest').val()
         };
-        if(null == payload.category || payload.category.length < 1){$('#overlayAlert').fadeIn();appendAlert('Missing Category', 'danger');document.getElementById('liveAlertPlaceholder').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
+        if(null == payload.category || payload.category.length < 1){$('#overlayAlert').fadeIn();appendAlert('Failure', 'danger');document.getElementById('liveAlertPlaceholder').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
         //if(null == payload.title || payload.title.length < 1){appendAlert('Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
-        if(null == payload.prayerRequest || payload.prayerRequest.length < 1){$('#overlayAlert').fadeIn();appendAlert('Missing Details', 'danger');document.getElementById('liveAlertPlaceholder').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
+        if(null == payload.prayerRequest || payload.prayerRequest.length < 1){$('#overlayAlert').fadeIn();appendAlert('Failure', 'danger');document.getElementById('liveAlertPlaceholder').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
         $('#overlay').fadeIn();
         $.ajax({
             url: '/prayer/submit',
@@ -41,13 +41,14 @@ if (alertTrigger) {
                 $('#category').css("border", "0px solid black");
                 $('#prayerRequest').css("border", "0px solid black");
                 $('#overlayAlert').fadeIn();
-                appendAlert('Request was received.', 'success');
+                appendAlert('Success', 'success');
                 document.getElementById('liveAlertPlaceholder').scrollIntoView();
                 $('#overlay').fadeOut();
             },
-            failure: function(ajaxResponse){
+            error: function(err){
+                console.log(err);
                 $('#overlayAlert').fadeIn();
-                appendAlert('Request was not received.', 'danger');
+                appendAlert('Failure', 'danger');
                 document.getElementById('liveAlertPlaceholder').scrollIntoView();
                 $('#overlay').fadeOut();
             }
