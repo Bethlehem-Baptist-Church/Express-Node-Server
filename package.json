@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=local node ./bin/www"
+    "start": "NODE_ENV=local node ./bin/www",
+    "test": "jest"
   },
   "dependencies": {
     "@google-cloud/cloud-sql-connector": "^1.0.0",
@@ -15,5 +16,8 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
