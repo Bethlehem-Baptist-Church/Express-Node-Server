@@ -19,8 +19,8 @@
                 <div class="container text-center">
                     <div class="row">
                         <div class="col animate__animated animate__flipInY" style="text-align: center">
-                            <div class="card border-dark mb-3" style="margin-top: 40px; border-radius: 30px 30px 40px 40px; max-width: 30rem; text-align: center; display: grid">
-                                <div class="card-header" style="text-align: center; font-weight: bold; font-size: x-large;">Create Prayer Request</div>
+                            <div class="card border-dark mb-3" style="margin-top: 40px; border-radius: 40px 40px 40px 40px; max-width: 30rem; text-align: center; display: grid">
+                                <div class="card-header" style="text-align: center; font-weight: bold; font-size: x-large; border-radius: 30px 30px 0px 0px; background-color: #556C91 !important; border-color: #556C91 !important; color: white;">Create Prayer Request</div>
                                 <div class="card-body" style="border-radius: 0px 0px 30px 30px; text-align: center;  display: grid; background-color: #2B374A; border-color: #2B374A; color: white;">
                                     <div class="container px-2 my-2" style="padding-top: 0px;">
                                         <form id="contactForm">
@@ -44,7 +44,7 @@
                                             </div>
                                             <br>
                                             <div class="d-grid">
-                                                <button class="btn btn-lg btn-light fw-bold border-white bg-white" id="submitButton" type="button">Submit</button>
+                                                <button class="btn btn-lg btn-light fw-bold border-white bg-white" id="submitButton" type="button" style="background-color: #556C91 !important; border-color: #556C91 !important; color: white;">Submit</button>
                                             </div>
                                         </form>
                                     </div>
@@ -107,9 +107,9 @@
                     "prayerRequest": $('#prayerRequest').val()
                 };
 
-                if(null == payload.category || payload.category.length < 1){$('#overlayAlert').fadeIn();appendAlert('Category is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
+                if(null == payload.category || payload.category.length < 1){$('#overlayAlert').fadeIn();appendAlert('Category is required.', 'danger');document.getElementById('liveAlertPlaceholder').scrollIntoView();$('#category').css("border", "5px solid red");return;}else{$('#category').css("border", "3px solid green");}
                 //if(null == payload.title || payload.title.length < 1){appendAlert('Title is required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#title').css("border", "5px solid red");return;}else{$('#title').css("border", "3px solid green");}
-                if(null == payload.prayerRequest || payload.prayerRequest.length < 1){$('#overlayAlert').fadeIn();appendAlert('Request details are required.', 'danger');document.getElementById('alertNotification').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
+                if(null == payload.prayerRequest || payload.prayerRequest.length < 1){$('#overlayAlert').fadeIn();appendAlert('Request details are required.', 'danger');document.getElementById('liveAlertPlaceholder').scrollIntoView();$('#prayerRequest').css("border", "5px solid red");return;}else{$('#prayerRequest').css("border", "3px solid green");}
 
                 $('#overlay').fadeIn();
                 $.ajax({
@@ -125,13 +125,13 @@
                         $('#prayerRequest').css("border", "0px solid black");
                         $('#overlayAlert').fadeIn();
                         appendAlert('Request was received.', 'success');
-                        document.getElementById('alertNotification').scrollIntoView();
+                        document.getElementById('liveAlertPlaceholder').scrollIntoView();
                         $('#overlay').fadeOut();
                     },
                     failure: function(ajaxResponse){
                         $('#overlayAlert').fadeIn();
                         appendAlert('Request was not received.', 'danger');
-                        document.getElementById('alertNotification').scrollIntoView();
+                        document.getElementById('liveAlertPlaceholder').scrollIntoView();
                         $('#overlay').fadeOut();
                     }
                 });

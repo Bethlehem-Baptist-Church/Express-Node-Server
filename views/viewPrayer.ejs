@@ -19,9 +19,9 @@
                 <div class="container text-center">
                     <div class="row">
                         <div class="col animate__animated animate__flipInY">
-                            <div class="card border-dark mb-3" style="margin-top: 40px; border-radius: 30px 30px 40px 40px; max-width: 30rem; text-align: center; display: grid">
-                                <div class="card-header" style="font-weight: bold; text-align: center; display: grid; font-size: x-large;">Search Prayer Requests</div>
-                                <div class="card-body" style="border-radius: 0px 0px 30px 30px; text-align: center;  display: grid; background-color: #2B374A; border-color: #2B374A; color: white;">
+                            <div class="card border-dark mb-3" style="margin-top: 40px; border-radius: 40px 40px 40px 40px; max-width: 30rem; text-align: center; display: grid">
+                                <div class="card-header" style="font-weight: bold; text-align: center; display: grid; font-size: x-large; border-radius: 30px 30px 0px 0px; background-color: #749155 !important; border-color: #749155 !important; color: white;">Search Prayer Requests</div>
+                                <div class="card-body" style="border-radius: 0px 0px 30px 30px; text-align: center;  display: grid; background-color: #3B4A2B; border-color: #3B4A2B; color: white;">
                                     <div style="">
                                         <table class="table table-dark table-striped prayerListTable" id="example" name="example" style="width: 100%;">
                                             <thead>
@@ -112,17 +112,17 @@
         });
 
         $('#example tbody').on('click', 'td.dt-control', function () {
-            var tr = $(this).closest('tr');
-            var row = table.row(tr);
+            var td = $(this).closest('td');
+            var row = table.row(td);
 
             if (row.child.isShown()) {
                 // This row is already open - close it
                 row.child.hide();
-                tr.removeClass('shown');
+                td.removeClass('shown');
             } else {
                 // Open this row
                 row.child(format(row.data())).show();
-                tr.addClass('shown');
+                td.addClass('shown');
             }
         });
 
