@@ -6,7 +6,11 @@ const express = require('express');
 const router = express.Router();
 const utility = require('../util');
 router.get('/', function(req, res, next) {
-  res.render('prayer', { title: 'Prayer' });
+  res.render('viewPrayer', { title: 'View Prayer Requests' });
+  return;
+});
+router.get('/create', function(req, res, next) {
+  res.render('createPrayer', { title: 'Create Prayer Requests' });
   return;
 });
 router.get('/requests', function(req, res, next) {
