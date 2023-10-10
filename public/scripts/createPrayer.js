@@ -9,7 +9,6 @@ const appendAlert = (message, type) => {
         `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__slideInLeft myAlert-top" style="margin: 0px; height: 100px;" role="alert">`,
         `<div style="display: inline;">${spanTag}</div>`,
         `<div style="font-size: larger; display: inline; padding-top: 10px;">${message}</div>`,
-        `<div style="display: inline;">${spanTag}</div>`,
         '<button type="button" onclick="$(\'#overlayAlert\').fadeOut()" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="margin-top: 25px; margin-right: 10px;"></button>',
         '</div>'
     ].join('');
