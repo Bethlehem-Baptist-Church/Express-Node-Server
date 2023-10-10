@@ -4,7 +4,6 @@ CREATE TABLE prayer_request (
 	request_details VARCHAR ( 255 ) NOT NULL,
 	request_status VARCHAR ( 10 ) NOT NULL
 );
-
 INSERT INTO public.prayer_request(
 	request_created_dt,
 	request_category,
@@ -16,7 +15,6 @@ INSERT INTO public.prayer_request(
 	'Please pray for my surgery on Tuesday to go well.',
 	'active'
 );
-
 INSERT INTO public.prayer_request(
 	request_created_dt,
 	request_category,
@@ -28,7 +26,6 @@ INSERT INTO public.prayer_request(
 	'Pray for me to make the right decision about my next job.',
 	'active'
 );
-
 INSERT INTO public.prayer_request(
 	request_created_dt,
 	request_category,
@@ -40,7 +37,6 @@ INSERT INTO public.prayer_request(
 	'Please give me the strength to get through my recruitment phase at work.',
 	'inactive'
 );
-
 INSERT INTO public.prayer_request(
 	request_created_dt,
 	request_category,
