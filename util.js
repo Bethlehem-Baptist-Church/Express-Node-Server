@@ -4,9 +4,9 @@
  */
 const db = require("./db");
 
-function getAllPrayerRequests() {
+function getAllPrayerRequests(sdt, edt) {
     const db = require('./db');
-    const resultSet = db.queryAllActivePrayerRequests();
+    const resultSet = db.queryAllActivePrayerRequests(sdt, edt);
     return resultSet;
 }
 
