@@ -33,7 +33,6 @@ async function queryAllActivePrayerRequests() {
         }
     });
 }
-
 async function insertPrayerRequest(input_category, input_details) {
     const input_dt = Math.round(new Date().getTime() / 1000);
     const input_status = 'pending';
@@ -54,7 +53,45 @@ async function insertPrayerRequest(input_category, input_details) {
         }
     });
 }
+async function delistPrayerRequest(input_id) {
+    const dbClient = new Client(dbConfig);
+    return new Promise((resolve, reject) => {
+        try {
+            dbClient.connect().then(() => {
+                const query = `UPDATE prayer_request SET request_status = 'inactive' WHERE request_created_dt = $1`;
+                const values = [input_id];
+                dbClient.query(query, values).then((result) => {
+                    dbClient.end();
+                    resolve(result);
+                });
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            reject(error);
+        }
+    });
+}
+async function deletePrayerRequest(input_id) {
+    const dbClient = new Client(dbConfig);
+    return new Promise((resolve, reject) => {
+        try {
+            dbClient.connect().then(() => {
+                const query = `DELETE FROM prayer_request WHERE request_created_dt = $1;`;
+                const values = [input_id];
+                dbClient.query(query, values).then((result) => {
+                    dbClient.end();
+                    resolve(result);
+                });
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            reject(error);
+        }
+    });
+}
 module.exports = {
     queryAllActivePrayerRequests,
-    insertPrayerRequest
+    insertPrayerRequest,
+    delistPrayerRequest,
+    deletePrayerRequest
 };

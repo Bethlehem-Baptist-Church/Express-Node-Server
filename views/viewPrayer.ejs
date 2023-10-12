@@ -29,6 +29,7 @@
                                                     <th scope="col"></th>
                                                     <th scope="col">Prayer ID</th>
                                                     <th scope="col">Category</th>
+                                                    <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -41,6 +42,9 @@
             </main>
             <footer class="mt-auto text-white-50">
                 <p><a href="https://getbootstrap.com/" class="text-white"></a><a href="https://twitter.com/mdo" class="text-white"></a></p>
+                <div id="overlayAlert" style="display:none;">
+                    <div style="opacity: 100%; !important;" id="liveAlertPlaceholder"></div>
+                </div>
             </footer>
         </div>
         <!--<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
@@ -52,6 +56,35 @@
                 language-code="en"
         ></df-messenger>-->
         <%- include('partials/js') %>
+
         <script src="/scripts/viewPrayer.js"></script>
+        <script>
+            const appendAlert = (message, type) => {
+                const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+                const wrapper = document.createElement('div');
+                let spanTag = `<svg style="width: 50px; height: 50px; padding-top: 20px; display: inline;" class="bi shrink-0 me-1" role="img" aria-label="Info:"><use xlink:href="#check-circle-fill"/></svg>`;
+                if(type === 'danger') {
+                    spanTag = `<svg style="width: 50px; height: 50px; padding-top: 20px; display: inline;" class="bi shrink-0 me-1" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill"/></svg>`;
+                }
+                wrapper.innerHTML = [
+                    `<div id="alertNotification" class="alert alert-${type} alert-dismissible animate__animated animate__slideInLeft myAlert-top" style="margin: 0px; height: 100px;" role="alert">`,
+                    `<div style="display: inline;">${spanTag}</div>`,
+                    `<div style="font-size: xx-large; display: inline; padding-top: 10px;">${message}</div>`,
+                    '<button type="button" onclick="$(\'#overlayAlert\').fadeOut()" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="margin-top: 25px; margin-right: 10px;"></button>',
+                    '</div>'
+                ].join('');
+                alertPlaceholder.append(wrapper);
+            }
+
+            window.addEventListener('load', function () {
+                let getSuccess = '<%= r_success %>';
+                if (getSuccess.toString().toLowerCase() === 'true') {
+                    $('#overlayAlert').fadeIn();
+                    appendAlert('Removed', 'success');
+                    document.getElementById('liveAlertPlaceholder').scrollIntoView();
+                    window.history.pushState(null, null, '/prayer');
+                }
+            });
+        </script>
     </body>
 </html>
