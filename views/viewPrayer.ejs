@@ -51,6 +51,23 @@
                 </div>
             </footer>
         </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-center" style="color: white; background-color: #749155 !important; border-color: #749155 !important;">
+                        <h1 class="modal-title fs-5 col-11 modal-title text-center" id="exampleModalLabel" style="margin-left: 20px;">Remove Prayer Request</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="color: white; background-color: #3B4A2B !important; border-color: #3B4A2B !important;">
+                        Are you sure you would like to remove this prayer request?
+                    </div>
+                    <div class="modal-footer" style="color: white; background-color: #749155 !important; border-color: #749155 !important;">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onClick="removePrayerRequest()" style="color: white; background-color: #d33333 !important; border-color: #d33333 !important;">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
         <df-messenger
                 chat-icon="https:&#x2F;&#x2F;bethlehem-baptist-church-mga46uiygq-uc.a.run.app&#x2F;images&#x2F;dialogflowHelperIcon.png"
@@ -63,6 +80,14 @@
 
         <script src="/scripts/viewPrayer.js"></script>
         <script>
+            let removePrayerRequestUrl = '';
+            const showRemovePrayerRequestModal = (request_created_dt) => {
+                removePrayerRequestUrl = '/prayer/remove?id=' + request_created_dt;
+                console.log(removePrayerRequestUrl);
+            }
+            const removePrayerRequest = () => {
+                window.location.href = removePrayerRequestUrl;
+            }
             const appendAlert = (message, type) => {
                 const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
                 const wrapper = document.createElement('div');
