@@ -29,7 +29,6 @@
                                                     <th scope="col"></th>
                                                     <th scope="col">Prayer ID</th>
                                                     <th scope="col">Category</th>
-                                                    <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -77,10 +76,16 @@
             }
 
             window.addEventListener('load', function () {
-                let getSuccess = '<%= r_success %>';
-                if (getSuccess.toString().toLowerCase() === 'true') {
+                let getRemoveSuccess = '<%= r_success %>';
+                let getEditSuccess = '<%= e_success %>';
+                if (getRemoveSuccess.toString().toLowerCase() === 'true') {
                     $('#overlayAlert').fadeIn();
                     appendAlert('Removed', 'success');
+                    document.getElementById('liveAlertPlaceholder').scrollIntoView();
+                    window.history.pushState(null, null, '/prayer');
+                } else if(getEditSuccess.toString().toLowerCase() === 'true') {
+                    $('#overlayAlert').fadeIn();
+                    appendAlert('Edited', 'success');
                     document.getElementById('liveAlertPlaceholder').scrollIntoView();
                     window.history.pushState(null, null, '/prayer');
                 }

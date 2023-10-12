@@ -53,6 +53,24 @@ async function insertPrayerRequest(input_category, input_details) {
         }
     });
 }
+async function updatePrayerRequest(input_id, input_category, input_details) {
+    const dbClient = new Client(dbConfig);
+    return new Promise((resolve, reject) => {
+        try {
+            dbClient.connect().then(() => {
+                const query = `UPDATE prayer_request SET request_category = $2, request_details = $3 WHERE request_created_dt = $1`;
+                const values = [input_id, input_category, input_details];
+                dbClient.query(query, values).then((result) => {
+                    dbClient.end();
+                    resolve(result);
+                });
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            reject(error);
+        }
+    });
+}
 async function delistPrayerRequest(input_id) {
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
@@ -92,6 +110,7 @@ async function deletePrayerRequest(input_id) {
 module.exports = {
     queryAllActivePrayerRequests,
     insertPrayerRequest,
+    updatePrayerRequest,
     delistPrayerRequest,
     deletePrayerRequest
 };

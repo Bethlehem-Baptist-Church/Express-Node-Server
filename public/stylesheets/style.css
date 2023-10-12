@@ -159,7 +159,7 @@ input.form-control.form-control-sm {
 }
 td.dt-control {
   padding-left: 10px;
-  padding-top: 20px;
+  padding-top: 10px;
   padding-bottom: 15px;
   text-align: center;
   cursor: pointer;
@@ -175,5 +175,5 @@ td.dt-control {
   width: 100%;
 }
 .text-center.space-top {
-  padding-top: 20px; !important;
+  padding-top: 10px; !important;
 }
