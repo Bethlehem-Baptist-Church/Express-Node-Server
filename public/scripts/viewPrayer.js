@@ -8,6 +8,11 @@ function format(d) {
         '</td>' +
         '</tr>' +
         '<tr>' +
+        '<td style="padding-left: 10px;">' +
+        '<td style="text-align: left;">' +
+        d[4].toString() +
+        '</td>' +
+        '</tr>' +
         '</table>'
     );
 }
@@ -29,18 +34,12 @@ let table = new DataTable('#example', {
         },
         {
             data: '0',
-            style: 'padding-top: 10px;',
             className: 'text-center space-top'
         },
         {
             data: '1',
-            style: 'padding-top: 10px;',
             className: 'text-center space-top'
-        },
-        {
-            data: '4',
-            className: 'text-center'
-        },
+        }
     ],
     order: [[1, 'desc']],
     columnDefs: [

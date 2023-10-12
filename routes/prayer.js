@@ -6,12 +6,13 @@ const express = require('express');
 const router = express.Router();
 const utility = require('../util');
 router.get('/', function(req, res, next) {
-  if(null == req.query.r_success) {
-    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: false });
-  } else {
-    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: true });
+  if(null == req.query.r_success && null == req.query.e_success) {
+    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: false, e_success: false });
+  } else if(null != req.query.r_success && null == req.query.e_success) {
+    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: true, e_success: false });
+  } else if(null == req.query.r_success && null != req.query.e_success) {
+    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: false, e_success: true });
   }
-
   return;
 });
 router.get('/create', function(req, res, next) {
@@ -23,7 +24,26 @@ router.get('/requests', function(req, res, next) {
     let prayerRequests = '{"data":[';
     if(null != resultSet && resultSet.length > 0) {
       resultSet.forEach((result) => {
-        const resultData = '["' + result.request_created_dt + '","' + result.request_category + '","' + result.request_details + '","' + result.request_status + '","<a href=\'/prayer/edit?id=' + result.request_created_dt + '\' class=\'btn btn-lg btn-light fw-bold border-white bg-white\' style=\'display: none; width: 40px; height: 40px; background-color: #749155 !important; border-color: #749155 !important; color: white;\'><i class=\'fa fa-pencil-square-o\' aria-hidden=\'false\' style=\'margin-left:-5px;position:relative;top:-5px;\'></i></a><a href=\'/prayer/remove?id=' + result.request_created_dt + '\' class=\'btn btn-lg btn-light fw-bold border-white bg-white\' style=\'width: 40px; height: 40px; background-color: #d33333 !important; border-color: #d33333 !important; color: white; margin: 5px !important;\'><i class=\'fa fa-trash\' aria-hidden=\'false\' style=\'margin-left:-5px;position:relative;top:-5px;\'></i></a>"' + '],';
+        let categoryValue = '';
+        if(result.request_category == 'Praise & Rejoice') {
+          categoryValue = '1';
+        } else if(result.request_category == 'Health & Safety') {
+          categoryValue = '2';
+        } else if(result.request_category == 'Guidance & Wisdom') {
+          categoryValue = '3';
+        } else if(result.request_category == 'Peace & Happiness') {
+          categoryValue = '4';
+        } else if(result.request_category == 'Strength & Courage') {
+          categoryValue = '5';
+        } else if(result.request_category == 'Attention & Care') {
+          categoryValue = '6';
+        } else if(result.request_category == 'Recovery & Renewal') {
+          categoryValue = '7';
+        } else {
+          categoryValue = '8';
+        }
+        const details = result.request_details.replace('\'',"");
+        const resultData = '["' + result.request_created_dt + '","' + result.request_category + '","' + result.request_details + '","' + result.request_status + '","<a href=\'/prayer/edit?id=' + result.request_created_dt + '&category=' + categoryValue + '&details=' + details + '\' class=\'btn btn-lg btn-light fw-bold border-white bg-white\' style=\'width: 40px; height: 40px; background-color: #749155 !important; border-color: #749155 !important; color: white;\'><i class=\'fa fa-pencil-square-o\' aria-hidden=\'false\' style=\'margin-left:-5px;position:relative;top:-5px;\'></i></a><a href=\'/prayer/remove?id=' + result.request_created_dt + '\' class=\'btn btn-lg btn-light fw-bold border-white bg-white\' style=\'width: 40px; height: 40px; background-color: #d33333 !important; border-color: #d33333 !important; color: white; margin-left: 10px !important;\'><i class=\'fa fa-trash\' aria-hidden=\'false\' style=\'margin-left:-5px;position:relative;top:-5px;\'></i></a>"' + '],';
         prayerRequests += resultData;
       });
       prayerRequests = prayerRequests.slice(0, prayerRequests.length - 1);
@@ -38,6 +58,17 @@ router.post('/submit', function(req, res, next) {
   utility.createPrayerRequest(req.body.category, req.body.prayerRequest).then((result) => {
     res.setHeader('Content-Type', 'text/html');
     res.send(result).end();
+    return;
+  });
+});
+router.get('/edit', function(req, res, next) {
+  res.render('editPrayer', { title: 'Edit Prayer Requests', id: req.query.id, category: req.query.category, details: req.query.details });
+  return;
+});
+router.post('/edit/submit', function(req, res, next) {
+  utility.editPrayerRequest(req.body.id, req.body.category, req.body.details).then((result) => {
+    res.setHeader('Content-Type', 'text/html');
+    res.send('result').end();
     return;
   });
 });

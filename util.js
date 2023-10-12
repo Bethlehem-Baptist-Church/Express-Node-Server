@@ -16,6 +16,12 @@ function createPrayerRequest(category, details) {
     return result;
 }
 
+function editPrayerRequest(id, category, details) {
+    const db = require('./db');
+    const result = db.updatePrayerRequest(id, category, details);
+    return result;
+}
+
 function deactivatePrayerRequest(id) {
     const db = require('./db');
     const result = db.delistPrayerRequest(id);
@@ -31,6 +37,7 @@ function deletePrayerRequest(id) {
 module.exports = {
     getAllPrayerRequests,
     createPrayerRequest,
+    editPrayerRequest,
     deactivatePrayerRequest,
     deletePrayerRequest
 };
