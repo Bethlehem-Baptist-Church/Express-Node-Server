@@ -6,12 +6,14 @@ const express = require('express');
 const router = express.Router();
 const utility = require('../util');
 router.get('/', function(req, res, next) {
-  if(null == req.query.r_success && null == req.query.e_success) {
-    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: false, e_success: false });
-  } else if(null != req.query.r_success && null == req.query.e_success) {
-    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: true, e_success: false });
-  } else if(null == req.query.r_success && null != req.query.e_success) {
-    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: false, e_success: true });
+  if(null == req.query.r_success && null == req.query.e_success && null == req.query.error) {
+    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: false, e_success: false, error: false });
+  } else if(null != req.query.r_success && null == req.query.e_success && null == req.query.error) {
+    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: true, e_success: false, error: false });
+  } else if(null == req.query.r_success && null != req.query.e_success && null == req.query.error) {
+    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: false, e_success: true, error: false });
+  } else {
+    res.render('viewPrayer', { title: 'View Prayer Requests', r_success: false, e_success: false, error: true });
   }
   return;
 });
@@ -62,20 +64,30 @@ router.post('/submit', function(req, res, next) {
   });
 });
 router.get('/edit', function(req, res, next) {
-  res.render('editPrayer', { title: 'Edit Prayer Requests', id: req.query.id, category: req.query.category, details: req.query.details });
-  return;
+  if(null == req.query.id || null == req.query.category || null == req.query.details) {
+    res.redirect('/prayer?error=true');
+  } else {
+    res.render('editPrayer', { title: 'Edit Prayer Requests', id: req.query.id, category: req.query.category, details: req.query.details });
+    return;
+  }
 });
 router.post('/edit/submit', function(req, res, next) {
-  utility.editPrayerRequest(req.body.id, req.body.category, req.body.details).then((result) => {
-    res.setHeader('Content-Type', 'text/html');
-    res.send('result').end();
-    return;
-  });
+  if(null == req.body.id || null == req.body.category || null == req.body.details) {
+    res.redirect('/prayer?error=true');
+  } else {
+    utility.editPrayerRequest(req.body.id, req.body.category, req.body.details).then((result) => {
+      res.setHeader('Content-Type', 'text/html');
+      res.send(null).end();
+      return;
+    });
+  }
 });
 router.get('/remove', function(req, res, next) {
   utility.deactivatePrayerRequest(req.query.id).then((result) => {
-    res.setHeader('Content-Type', 'text/html');
     res.redirect('/prayer?r_success=true');
+    return;
+  }).catch((error) => {
+    res.redirect('/prayer?error=true');
     return;
   });
 });
@@ -83,6 +95,9 @@ router.post('/delete', function(req, res, next) {
   utility.deletePrayerRequest(req.body.id).then((result) => {
     res.setHeader('Content-Type', 'text/html');
     res.send(result).end();
+    return;
+  }).catch((error) => {
+    res.redirect('/prayer?error=true');
     return;
   });
 });
