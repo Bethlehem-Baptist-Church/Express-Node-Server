@@ -22,6 +22,11 @@
                             <div class="card border-dark mb-3" style="margin-top: 40px; border-radius: 40px 40px 40px 40px; max-width: 30rem; text-align: center; display: grid">
                                 <div class="card-header" style="display: inline; font-weight: bold; text-align: center; display: grid; display: inline;font-size: x-large; border-radius: 30px 30px 0px 0px; background-color: #749155 !important; border-color: #749155 !important; color: white;"><a href="/" style="color: white;display: inline;"><i class="fa fa-arrow-circle-left" style="" aria-hidden="true"></i></a><div style="display: inline; margin-left: 10px; text-align: center !important;">View Prayer Request</div></div>
                                 <div class="card-body" style="border-radius: 0px 0px 30px 30px; text-align: center;  display: grid; background-color: #3B4A2B; border-color: #3B4A2B; color: white;">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a onClick="loadPastWeek();" class="btn btn-lg btn-light fw-bold border-white bg-white" style="display: inline; background-color: #749155 !important; border-color: #749155 !important; color: white;">Past Week</a>
+                                        <a onClick="loadPastMonth();" class="btn btn-lg btn-light fw-bold border-white bg-white" style="display: inline; background-color: #749155 !important; border-color: #749155 !important; color: white;">Past Month</a>
+                                        <a onClick="loadAllTime();" class="btn btn-lg btn-light fw-bold border-white bg-white" style="display: inline; background-color: #749155 !important; border-color: #749155 !important; color: white;">All Time</a>
+                                    </div>
                                     <div style="">
                                         <table class="table table-dark table-striped prayerListTable" id="example" name="example" style="width: 100%; border: 0px solid black">
                                             <thead>
@@ -96,6 +101,244 @@
                     window.history.pushState(null, null, '/prayer');
                 }
             });
+
+            const input_pw_sdt = Math.round(new Date().getTime() / 1000) - 604800;
+            const input_pm_sdt = Math.round(new Date().getTime() / 1000) - 2629800;
+            const input_edt = Math.round(new Date().getTime() / 1000);
+
+            let ajaxQuery = '/prayer/requests?sdt=' + 0 + '&edt=' + input_edt;
+
+            let table = new DataTable('#example', {
+                ajax: {
+                    url: ajaxQuery,
+                    type: 'GET',
+                    beforeSend: function (request) {},
+                    error: function (xhr, error, code) {
+                        alert('Please try again later. Error retrieving data for prayer request list: ' + error);
+                    }
+                },
+                columns: [
+                    {
+                        className: 'dt-control',
+                        orderable: false,
+                        data: null,
+                        defaultContent: '',
+                    },
+                    {
+                        data: '0',
+                        className: 'text-center space-top'
+                    },
+                    {
+                        data: '1',
+                        className: 'text-center space-top'
+                    }
+                ],
+                order: [[1, 'desc']],
+                columnDefs: [
+                    {
+                        render: function (data) {
+                            return 'REQ ' + data;
+                        },
+                        targets: 1,
+                    }
+                ],
+                iDisplayLength: 5,
+                responsive: true,
+                bFilter: true,
+                bPaginate: true,
+                bLengthChange: false,
+                bInfo: false,
+                bAutoWidth: false,
+                dom: "<'row'<'col-sm-12 col-md-12 my-3'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-12 my-3'p>>",
+            });
+
+            function format(d) {
+                return (
+                    '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                    '<tr>' +
+                    '<td style="padding-left: 10px;">' +
+                    '<td style="text-align: left;">' +
+                    d[2].toString() +
+                    '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td style="padding-left: 10px;">' +
+                    '<td style="text-align: left;">' +
+                    d[4].toString() +
+                    '</td>' +
+                    '</tr>' +
+                    '</table>'
+                );
+            }
+
+            $("#example").on('xhr.dt', function (e, settings, json, xhr) {
+                $('#overlay').fadeOut();
+            });
+
+            $('#example tbody').on('click', 'td.dt-control', function () {
+                var td = $(this).closest('td');
+                var row = table.row(td);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    td.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    td.addClass('shown');
+                }
+            });
+
+            const loadPastWeek = () => {
+                table.clear().destroy();
+                ajaxQuery = '/prayer/requests?sdt=' + input_pw_sdt + '&edt=' + input_edt;
+                table = new DataTable('#example', {
+                    ajax: {
+                        url: ajaxQuery,
+                        type: 'GET',
+                        beforeSend: function (request) {},
+                        error: function (xhr, error, code) {
+                            alert('Please try again later. Error retrieving data for prayer request list: ' + error);
+                        }
+                    },
+                    columns: [
+                        {
+                            className: 'dt-control',
+                            orderable: false,
+                            data: null,
+                            defaultContent: '',
+                        },
+                        {
+                            data: '0',
+                            className: 'text-center space-top'
+                        },
+                        {
+                            data: '1',
+                            className: 'text-center space-top'
+                        }
+                    ],
+                    order: [[1, 'desc']],
+                    columnDefs: [
+                        {
+                            render: function (data) {
+                                return 'REQ ' + data;
+                            },
+                            targets: 1,
+                        }
+                    ],
+                    iDisplayLength: 5,
+                    responsive: true,
+                    bFilter: true,
+                    bPaginate: true,
+                    bLengthChange: false,
+                    bInfo: false,
+                    bAutoWidth: false,
+                    dom: "<'row'<'col-sm-12 col-md-12 my-3'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-12 my-3'p>>",
+                });
+            }
+            const loadPastMonth = () => {
+                table.clear().destroy();
+                ajaxQuery = '/prayer/requests?sdt=' + input_pm_sdt + '&edt=' + input_edt;
+                table = new DataTable('#example', {
+                    ajax: {
+                        url: ajaxQuery,
+                        type: 'GET',
+                        beforeSend: function (request) {},
+                        error: function (xhr, error, code) {
+                            alert('Please try again later. Error retrieving data for prayer request list: ' + error);
+                        }
+                    },
+                    columns: [
+                        {
+                            className: 'dt-control',
+                            orderable: false,
+                            data: null,
+                            defaultContent: '',
+                        },
+                        {
+                            data: '0',
+                            className: 'text-center space-top'
+                        },
+                        {
+                            data: '1',
+                            className: 'text-center space-top'
+                        }
+                    ],
+                    order: [[1, 'desc']],
+                    columnDefs: [
+                        {
+                            render: function (data) {
+                                return 'REQ ' + data;
+                            },
+                            targets: 1,
+                        }
+                    ],
+                    iDisplayLength: 5,
+                    responsive: true,
+                    bFilter: true,
+                    bPaginate: true,
+                    bLengthChange: false,
+                    bInfo: false,
+                    bAutoWidth: false,
+                    dom: "<'row'<'col-sm-12 col-md-12 my-3'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-12 my-3'p>>",
+                });
+            }
+            const loadAllTime = () => {
+                table.clear().destroy();
+                ajaxQuery = '/prayer/requests?sdt=' + 0 + '&edt=' + input_edt;
+                table = new DataTable('#example', {
+                    ajax: {
+                        url: ajaxQuery,
+                        type: 'GET',
+                        beforeSend: function (request) {},
+                        error: function (xhr, error, code) {
+                            alert('Please try again later. Error retrieving data for prayer request list: ' + error);
+                        }
+                    },
+                    columns: [
+                        {
+                            className: 'dt-control',
+                            orderable: false,
+                            data: null,
+                            defaultContent: '',
+                        },
+                        {
+                            data: '0',
+                            className: 'text-center space-top'
+                        },
+                        {
+                            data: '1',
+                            className: 'text-center space-top'
+                        }
+                    ],
+                    order: [[1, 'desc']],
+                    columnDefs: [
+                        {
+                            render: function (data) {
+                                return 'REQ ' + data;
+                            },
+                            targets: 1,
+                        }
+                    ],
+                    iDisplayLength: 5,
+                    responsive: true,
+                    bFilter: true,
+                    bPaginate: true,
+                    bLengthChange: false,
+                    bInfo: false,
+                    bAutoWidth: false,
+                    dom: "<'row'<'col-sm-12 col-md-12 my-3'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-12 my-3'p>>",
+                });
+            }
         </script>
     </body>
 </html>

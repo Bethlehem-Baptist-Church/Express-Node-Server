@@ -22,7 +22,11 @@ router.get('/create', function(req, res, next) {
   return;
 });
 router.get('/requests', function(req, res, next) {
-  utility.getAllPrayerRequests().then((resultSet) => {
+  if(null == req.query.sdt && null == req.query.edt) {
+    res.setHeader('Content-Type', 'text/html');
+    res.response(400).send(null).end();
+  }
+  utility.getAllPrayerRequests(req.query.sdt, req.query.edt).then((resultSet) => {
     let prayerRequests = '{"data":[';
     if(null != resultSet && resultSet.length > 0) {
       resultSet.forEach((result) => {

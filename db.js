@@ -16,13 +16,14 @@ if(process.env.NODE_ENV === 'local') {
     dbConfig.password = settings.pgsql_pass.toString();
     dbConfig.host = settings.pgsql_host.toString();
 }
-async function queryAllActivePrayerRequests() {
+async function queryAllActivePrayerRequests(sdt, edt) {
     const dbClient = new Client(dbConfig);
     return new Promise((resolve, reject) => {
         try {
             dbClient.connect().then(() => {
-                const query = `SELECT * FROM prayer_request WHERE request_status IN ('active','pending');`;
-                dbClient.query(query).then((result) => {
+                const query = `SELECT * FROM prayer_request WHERE request_status IN ('active','pending') AND request_created_dt > $1 AND request_created_dt < $2;`;
+                const values = [sdt, edt];
+                dbClient.query(query, values).then((result) => {
                     dbClient.end();
                     resolve(result.rows);
                 });
