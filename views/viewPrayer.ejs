@@ -78,6 +78,7 @@
             window.addEventListener('load', function () {
                 let getRemoveSuccess = '<%= r_success %>';
                 let getEditSuccess = '<%= e_success %>';
+                let getError = '<%= error %>';
                 if (getRemoveSuccess.toString().toLowerCase() === 'true') {
                     $('#overlayAlert').fadeIn();
                     appendAlert('Removed', 'success');
@@ -86,6 +87,11 @@
                 } else if(getEditSuccess.toString().toLowerCase() === 'true') {
                     $('#overlayAlert').fadeIn();
                     appendAlert('Edited', 'success');
+                    document.getElementById('liveAlertPlaceholder').scrollIntoView();
+                    window.history.pushState(null, null, '/prayer');
+                } else if(getError.toString().toLowerCase() === 'true') {
+                    $('#overlayAlert').fadeIn();
+                    appendAlert('Error', 'danger');
                     document.getElementById('liveAlertPlaceholder').scrollIntoView();
                     window.history.pushState(null, null, '/prayer');
                 }
