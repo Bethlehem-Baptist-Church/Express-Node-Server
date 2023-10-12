@@ -27,14 +27,26 @@ let table = new DataTable('#example', {
             data: null,
             defaultContent: '',
         },
-        {data: '0', className: 'text-center'},
-        {data: '1', className: 'text-center'}
+        {
+            data: '0',
+            style: 'padding-top: 10px;',
+            className: 'text-center space-top'
+        },
+        {
+            data: '1',
+            style: 'padding-top: 10px;',
+            className: 'text-center space-top'
+        },
+        {
+            data: '4',
+            className: 'text-center'
+        },
     ],
     order: [[1, 'desc']],
     columnDefs: [
         {
             render: function (data) {
-                return 'REQ' + data;
+                return 'REQ ' + data;
             },
             targets: 1,
         }
