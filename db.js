@@ -7,7 +7,7 @@ let dbConfig = {
     user: 'postgres',
     password: process.env.pgsql_pass,
     database: 'postgres',
-    host: '/cloudsql/bb-church:us-central1:bb-church-pgsql',
+    host: '/cloudsql/bb-church:us-central1:bb-church-prayer-pgsql',
     port: 5432,
     ssl: false
 };
